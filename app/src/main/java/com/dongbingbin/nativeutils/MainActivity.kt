@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.TextView
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
 import kotlinx.coroutines.*
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity(),CoroutineScope {
             tvSpeed.text = it.obj.toString()
             true
         }).startShowNetSpeed()
+
         //test1
 //        var intent = Intent(this,MainActivity.class);
 //        startActivity(intent);
