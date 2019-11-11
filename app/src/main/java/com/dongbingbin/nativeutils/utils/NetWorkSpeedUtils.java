@@ -5,6 +5,8 @@ import android.net.TrafficStats;
 import android.os.Handler;
 import android.os.Message;
 
+import com.fm.openinstall.OpenInstall;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,6 +20,8 @@ public class NetWorkSpeedUtils {
     public NetWorkSpeedUtils(Context context, Handler mHandler){
         this.context = context;
         this.mHandler = mHandler;
+
+
     }
  
     TimerTask task = new TimerTask() {
