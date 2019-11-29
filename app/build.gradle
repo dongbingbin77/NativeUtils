@@ -35,6 +35,7 @@ dependencies {
     //                                       👇 依赖当前平台所对应的平台库
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
     api 'com.tencent.tbs.tbssdk:sdk:43697'
+    
 }
 repositories {
     mavenCentral()
