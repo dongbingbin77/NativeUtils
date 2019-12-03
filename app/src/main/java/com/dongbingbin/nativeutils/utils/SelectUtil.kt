@@ -1,5 +1,10 @@
 package com.dongbingbin.nativeutils.utils
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 fun selectType(content:String,phone:(x:String,y:String)->Unit,email:()->Unit){
     when(content){
         !in "a".."z"-> "12"
@@ -27,5 +32,24 @@ fun test(): () -> Unit {
 }
 
 fun test3():String{
+
+    GlobalScope.launch(Dispatchers.Main) {
+        for (i in 1..10) {
+            println("dongbingbin:" + Thread.currentThread().name)
+            kotlinx.coroutines.delay(3000)
+            println("dongbingbin:" + Thread.currentThread().name)
+            withContext(Dispatchers.IO) {
+                Thread.sleep(3000)
+                println("dongbingbin:" + Thread.currentThread().name)
+            }
+            var value = withContext(Dispatchers.IO) {
+                "123"
+            };
+
+            println("dongbingbin: async value $value")
+        }
+
+    }
+
     return "123"
 }

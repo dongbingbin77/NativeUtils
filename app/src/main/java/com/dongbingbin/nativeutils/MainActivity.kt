@@ -72,6 +72,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
         });
 
+        test_edit1.setOnClickListener(object:View.OnClickListener{
+            override fun onClick(v: View?) {
+                var intent = Intent(this@MainActivity,WebviewActivity::class.java)
+                startActivityForResult(intent,11)
+                overridePendingTransition(R.anim.anim_in,R.anim.anim_out)
+            }
+        })
+
         test_edit.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -175,24 +183,33 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
         a1("123")
 
+        var aa = a.let{
+             it
+        }
+
+        println("dongbingbin a.let ${aa}")
+
         GlobalScope.launch(Dispatchers.Main) {
+            //Thread.sleep(30000)
             for (i in 1..10) {
-                println("dongbingbin:" + Thread.currentThread().name)
+                println("dongbingbin launch:" + Thread.currentThread().name)
                 kotlinx.coroutines.delay(3000)
-                println("dongbingbin:" + Thread.currentThread().name)
+                //Thread.sleep(3000)
+                println("dongbingbin launch:" + Thread.currentThread().name)
                 withContext(Dispatchers.IO) {
                     Thread.sleep(3000)
-                    println("dongbingbin:" + Thread.currentThread().name)
+                    println("dongbingbin launch IO:" + Thread.currentThread().name)
                 }
                 var value = withContext(Dispatchers.IO) {
                     "123"
                 };
 
-                println("dongbingbin: async value $value")
+                println("dongbingbin launch: async value $value ${Thread.currentThread().name}")
             }
 
         }
 
+        println("dongbingbin launch after ${Thread.currentThread().name}")
         selectType("",phone={
             x,y->{
 
