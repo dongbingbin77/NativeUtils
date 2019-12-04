@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.fm.openinstall.OpenInstall;
 
@@ -16,9 +17,16 @@ public class AppApplication extends Application {
 
     public List<Activity> list = new ArrayList();
 
+    private static AppApplication appApplication;
+
+    public static AppApplication getAppApplication() {
+        return appApplication;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        appApplication = this;
         OpenInstall.init(this);
         String str1 = "1234";
         String str2 = new String("1234");
@@ -27,7 +35,8 @@ public class AppApplication extends Application {
         NetWorkSpeedUtils obj1 = new NetWorkSpeedUtils(this,null);
         NetWorkSpeedUtils obj2 = new NetWorkSpeedUtils(this,null);
 
-
+        DoraemonKit.install(this);
+        //DoraemonKit.hide();
 
 
 

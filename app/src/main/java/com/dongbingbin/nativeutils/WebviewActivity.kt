@@ -1,10 +1,12 @@
 package com.dongbingbin.nativeutils
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Window
 import android.webkit.WebView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.dongbingbin.nativeutils.utils.WebPools
+import com.tencent.sonic.sdk.SonicEngine
+import com.tencent.sonic.sdk.SonicSessionConfig
 import kotlinx.android.synthetic.main.activity_webview.*
 
 
@@ -30,4 +32,6 @@ class WebviewActivity : AppCompatActivity() {
         super.onBackPressed()
         overridePendingTransition(R.anim.anim_in,R.anim.anim_out)
     }
+
+    
 }
