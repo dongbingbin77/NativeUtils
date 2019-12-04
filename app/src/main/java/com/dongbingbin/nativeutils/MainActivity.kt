@@ -1,5 +1,6 @@
 package com.dongbingbin.nativeutils
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Rect
@@ -10,15 +11,22 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import android.view.Window
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginTop
+import androidx.core.app.ActivityCompat
 import com.dongbingbin.nativeutils.utils.DisplayUtils
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
 import com.dongbingbin.nativeutils.utils.print
+import com.dongbingbin.sonic.SonicJavaScriptInterface
+import com.dongbingbin.sonic.SonicRuntimeImpl
 import com.dongbingbin.widget.MyDialog
 import com.gyf.immersionbar.ImmersionBar
+import com.tencent.sonic.sdk.SonicConfig
+import com.tencent.sonic.sdk.SonicEngine
+import com.tencent.sonic.sdk.SonicSessionConfig
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.io.File
@@ -26,10 +34,27 @@ import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
     lateinit var job: Job
+
+    var url = "https://zhidao.baidu.com/daily/view?id=186027";
+    companion object {
+        val MODE_DEFAULT = 0
+
+        val MODE_SONIC = 1
+
+        val MODE_SONIC_WITH_OFFLINE_CACHE = 2
+
+        val PERMISSION_REQUEST_CODE_STORAGE = 1
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initSonic()
 
+        initUI()
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(this@MainActivity,listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(),123)
+            //requestPermissions(listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE).toTypedArray(),111)
+        //}
 
         Handler().postDelayed({
             val rectangle = Rect()
@@ -285,4 +310,72 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    private fun initSonic() { // init sonic engine
+        if (!SonicEngine.isGetInstanceAllowed()) {
+            SonicEngine.createInstance(SonicRuntimeImpl(application), SonicConfig.Builder().build())
+        }
+    }
+
+    private fun initUI(){
+        // clean up cache btn
+        val btnReset = findViewById<View>(R.id.btn_reset) as Button
+        btnReset.setOnClickListener { SonicEngine.getInstance().cleanCache() }
+
+        // default btn
+        // default btn
+        val btnDefault = findViewById<View>(R.id.btn_default_mode) as Button
+        btnDefault.setOnClickListener { startBrowserActivity(MODE_DEFAULT) }
+
+        // preload btn
+        // preload btn
+        val btnSonicPreload = findViewById<View>(R.id.btn_sonic_preload) as Button
+        btnSonicPreload.setOnClickListener {
+            val sessionConfigBuilder: SonicSessionConfig.Builder = SonicSessionConfig.Builder()
+            sessionConfigBuilder.setSupportLocalServer(true)
+            // preload session
+            val preloadSuccess = SonicEngine.getInstance().preCreateSession(url, sessionConfigBuilder.build())
+            Toast.makeText(applicationContext, if (preloadSuccess) "Preload start up success!" else "Preload start up fail!", Toast.LENGTH_LONG).show()
+        }
+
+        // sonic mode load btn
+        // sonic mode load btn
+        val btnSonic = findViewById<View>(R.id.btn_sonic) as Button
+        btnSonic.setOnClickListener { startBrowserActivity(MODE_SONIC) }
+
+        // load sonic with offline cache
+        // load sonic with offline cache
+        val btnSonicWithOfflineCache = findViewById<View>(R.id.btn_sonic_with_offline) as Button
+        btnSonicWithOfflineCache.setOnClickListener { startBrowserActivity(MODE_SONIC_WITH_OFFLINE_CACHE) }
+    }
+    private fun startBrowserActivity(mode: Int) {
+        val intent = Intent(this, BrowserActivity::class.java)
+        intent.putExtra(BrowserActivity.PARAM_URL, url)
+        intent.putExtra(BrowserActivity.PARAM_MODE, mode)
+        intent.putExtra(SonicJavaScriptInterface.PARAM_CLICK_TIME, System.currentTimeMillis())
+        startActivityForResult(intent, -1)
+        overridePendingTransition(R.anim.anim_in,0)
+    }
+    fun preload(DEMO_URL: String) {
+        val sessionConfigBuilder: SonicSessionConfig.Builder = SonicSessionConfig.Builder()
+        sessionConfigBuilder.setSupportLocalServer(true)
+
+        // preload session
+        // preload session
+        val preloadSuccess: Boolean = SonicEngine.getInstance().preCreateSession(DEMO_URL, sessionConfigBuilder.build())
+        Toast.makeText(applicationContext, if (preloadSuccess) "Preload start up success!" else "Preload start up fail!", Toast.LENGTH_LONG).show()
+    }
+
+    fun preload_click(view:View){
+        val sessionConfigBuilder: SonicSessionConfig.Builder = SonicSessionConfig.Builder()
+        sessionConfigBuilder.setSupportLocalServer(true)
+
+        // preload session
+        // preload session
+        val preloadSuccess = SonicEngine.getInstance().preCreateSession(url, sessionConfigBuilder.build())
+        Toast.makeText(applicationContext, if (preloadSuccess) "Preload start up success!" else "Preload start up fail!", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 }

@@ -43,6 +43,14 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar-ktx:3.0.0'
 
     implementation 'com.tencent.sonic:sdk:3.1.0'
+    api 'com.tencent.tbs.tbssdk:sdk:43697'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation('com.didichuxing.doraemonkit:doraemonkit:1.2.1')
+//            {
+//        exclude group: 'com.google.code.gson'
+//        exclude group: 'com.google.zxing'
+//        exclude group: 'com.squareup.okhttp3'
+//    }
 }
 repositories {
     mavenCentral()
