@@ -43,9 +43,14 @@ import com.tencent.sonic.sdk.SonicSessionConnection;
 import com.tencent.sonic.sdk.SonicSessionConnectionInterceptor;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,6 +162,37 @@ public class BrowserActivity extends Activity {
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                System.out.println("dongbingbin thread:"+Thread.currentThread().getName()+" url:"+url);
+
+                try {
+                    long begin = System.currentTimeMillis();
+                    URL url1 = new URL("http://wx1.sinaimg.cn/mw600/007aPnLRgy1g9kwhl3qapj30dw0g7n1o.jpg");
+                    URLConnection URLconnection = url1.openConnection();
+                    HttpURLConnection httpConnection = (HttpURLConnection) URLconnection;
+                    String contentType = httpConnection.getContentType();
+                    long end = System.currentTimeMillis();
+                    //System.out.println("dongbingbin getContentType "+contentType +" time:"+(end-begin));
+                    int responseCode = httpConnection.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        System.err.println("成功");
+                        InputStream in = httpConnection.getInputStream();
+                        InputStreamReader isr = new InputStreamReader(in);
+                        BufferedReader bufr = new BufferedReader(isr);
+                        String str;
+                        while ((str = bufr.readLine()) != null) {
+                            System.out.println(str);
+                        }
+                        bufr.close();
+                        long end2 = System.currentTimeMillis();
+                        System.out.println("dongbingbin getContentType "+contentType+"contentType time:"+(end-begin)+" read image time:"+(end2-begin));
+                    } else {
+                        System.err.println("失败");
+                    }
+                }catch (Exception ex1){
+                    ex1.printStackTrace();
+                }
+
+
                 if (sonicSession != null) {
                     return (WebResourceResponse) sonicSession.getSessionClient().requestResource(url);
                 }
