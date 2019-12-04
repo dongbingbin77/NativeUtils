@@ -171,23 +171,25 @@ public class BrowserActivity extends Activity {
                     HttpURLConnection httpConnection = (HttpURLConnection) URLconnection;
                     String contentType = httpConnection.getContentType();
                     long end = System.currentTimeMillis();
-                    //System.out.println("dongbingbin getContentType "+contentType +" time:"+(end-begin));
-                    int responseCode = httpConnection.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        System.err.println("成功");
-                        InputStream in = httpConnection.getInputStream();
-                        InputStreamReader isr = new InputStreamReader(in);
-                        BufferedReader bufr = new BufferedReader(isr);
-                        String str;
-                        while ((str = bufr.readLine()) != null) {
-                            System.out.println(str);
-                        }
-                        bufr.close();
-                        long end2 = System.currentTimeMillis();
-                        System.out.println("dongbingbin getContentType "+contentType+"contentType time:"+(end-begin)+" read image time:"+(end2-begin));
-                    } else {
-                        System.err.println("失败");
-                    }
+                    //httpConnection.getIfModifiedSince()
+                    System.out.println("dongbingbin getContentType "+contentType +" time:"+(end-begin));
+                    httpConnection.disconnect();
+//                    int responseCode = httpConnection.getResponseCode();
+//                    if (responseCode == HttpURLConnection.HTTP_OK) {
+//                        System.err.println("成功");
+//                        InputStream in = httpConnection.getInputStream();
+//                        InputStreamReader isr = new InputStreamReader(in);
+//                        BufferedReader bufr = new BufferedReader(isr);
+//                        String str;
+//                        while ((str = bufr.readLine()) != null) {
+//                            System.out.println(str);
+//                        }
+//                        bufr.close();
+//                        long end2 = System.currentTimeMillis();
+//                        System.out.println("dongbingbin getContentType "+contentType+"contentType time:"+(end-begin)+" read image time:"+(end2-begin));
+//                    } else {
+//                        System.err.println("失败");
+//                    }
                 }catch (Exception ex1){
                     ex1.printStackTrace();
                 }
