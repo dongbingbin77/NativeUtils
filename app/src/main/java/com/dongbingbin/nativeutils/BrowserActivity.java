@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -72,6 +73,12 @@ public class BrowserActivity extends Activity {
     public final static String PARAM_MODE = "param_mode";
 
     private SonicSession sonicSession;
+
+    private int contentCount=0;
+
+    private long contentTypeSumTime =0;
+
+    private long contentReadSumTime =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +159,10 @@ public class BrowserActivity extends Activity {
                 if (sonicSession != null) {
                     sonicSession.getSessionClient().pageFinish(url);
                 }
+
+                System.out.println("dongbingbin getContentType contentSumTime:"+contentTypeSumTime
+                        +" "+" readSumTime:"+contentReadSumTime+" allCount:"+contentCount);
+
             }
 
             @TargetApi(21)
@@ -166,33 +177,42 @@ public class BrowserActivity extends Activity {
 
                 try {
                     long begin = System.currentTimeMillis();
-                    URL url1 = new URL("http://wx1.sinaimg.cn/mw600/007aPnLRgy1g9kwhl3qapj30dw0g7n1o.jpg");
+                    URL url1 = new URL("https://img-pub01.visitshanghai.com.cn/Fon0WMXzT_QEjPvvgxTQoAm44ZCY?e=1571369230&token=JT9hop2MntCNMNz8O7UqTb4scQYpASy7sK2q11su:hcJnvI0M6-VvD3v1gU9FrJdbn8g=");
                     URLConnection URLconnection = url1.openConnection();
                     HttpURLConnection httpConnection = (HttpURLConnection) URLconnection;
                     String contentType = httpConnection.getContentType();
                     long end = System.currentTimeMillis();
                     //httpConnection.getIfModifiedSince()
-                    System.out.println("dongbingbin getContentType "+contentType +" time:"+(end-begin));
-                    httpConnection.disconnect();
-//                    int responseCode = httpConnection.getResponseCode();
-//                    if (responseCode == HttpURLConnection.HTTP_OK) {
-//                        System.err.println("成功");
-//                        InputStream in = httpConnection.getInputStream();
-//                        InputStreamReader isr = new InputStreamReader(in);
-//                        BufferedReader bufr = new BufferedReader(isr);
-//                        String str;
-//                        while ((str = bufr.readLine()) != null) {
-//                            System.out.println(str);
-//                        }
-//                        bufr.close();
-//                        long end2 = System.currentTimeMillis();
-//                        System.out.println("dongbingbin getContentType "+contentType+"contentType time:"+(end-begin)+" read image time:"+(end2-begin));
-//                    } else {
-//                        System.err.println("失败");
-//                    }
+                    //System.out.println("dongbingbin getContentType "+contentType +" time:"+(end-begin));
+                    //httpConnection.disconnect();
+                    int responseCode = httpConnection.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        System.err.println("成功");
+                        InputStream in = httpConnection.getInputStream();
+                        InputStreamReader isr = new InputStreamReader(in);
+                        BufferedReader bufr = new BufferedReader(isr);
+                        String str;
+                        while ((str = bufr.readLine()) != null) {
+                            //System.out.println(str);
+                        }
+                        bufr.close();
+                        long end2 = System.currentTimeMillis();
+                        long contentTime = (end-begin);
+                        long readTime = (end2-begin);
+                        contentCount++;
+                        contentTypeSumTime = contentTypeSumTime +contentTime;
+                        contentReadSumTime = contentReadSumTime +readTime;
+                        System.out.println("dongbingbin getContentType "
+                                +contentType+"contentType time:"+contentTime+" read image time:"
+                                +readTime
+                        );
+                    } else {
+                        System.err.println("失败");
+                    }
                 }catch (Exception ex1){
                     ex1.printStackTrace();
                 }
+
 
 
                 if (sonicSession != null) {
@@ -231,6 +251,8 @@ public class BrowserActivity extends Activity {
         } else { // default mode
             webView.loadUrl(url);
         }
+
+
     }
 
     @Override
