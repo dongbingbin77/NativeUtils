@@ -2,6 +2,7 @@ package com.dongbingbin.nativeutils
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dongbingbin.nativeutils.model.Person
 
 class Main2Activity : AppCompatActivity() {
 
@@ -17,5 +18,8 @@ class Main2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         Main2Activity.test("12","34");
+        var p = Person("123")
+        var p1 = Person("123")
+
     }
 }
