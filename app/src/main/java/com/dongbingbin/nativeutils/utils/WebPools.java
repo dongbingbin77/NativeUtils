@@ -62,12 +62,12 @@ public class WebPools {
                 ((ViewGroup) webView.getParent()).removeView(webView);
             }
 
-            //if (webView.getContext() instanceof MutableContextWrapper) {
-                //MutableContextWrapper mContext = (MutableContextWrapper) webView.getContext();
-             //mContext.setBaseContext(mContext.getApplicationContext());
+            if (webView.getContext() instanceof MutableContextWrapper) {
+                MutableContextWrapper mContext = (MutableContextWrapper) webView.getContext();
+                mContext.setBaseContext(mContext.getApplicationContext());
                 //LogUtils.i(TAG,"enqueue  webview:"+webView);
-                mWebViews.offer(new WebView(new MutableContextWrapper(webView.getContext().getApplicationContext())));
-            //}
+                mWebViews.offer(webView);
+            }
             if(webView.getContext() instanceof  Activity){
 //            throw new RuntimeException("leaked");
 //                LogUtils.i(TAG,"Abandon this webview  ， It will cause leak if enqueue !");

@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.dongbingbin.nativeutils.utils.DelegateArrayList
+import com.dongbingbin.nativeutils.model.Person
 import com.dongbingbin.nativeutils.utils.DisplayUtils
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
 import com.dongbingbin.nativeutils.utils.print
@@ -28,6 +29,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
 import com.tencent.sonic.sdk.SonicSessionConfig
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.io.File
@@ -51,10 +53,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_main)
         initSonic()
 
+
         initUI()
 
         var delegateArray = DelegateArrayList<String>(innerArray=ArrayList<String>())
-        
+
+
+        var p = Person("123")
+        var p1 = Person("123")
+
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(this@MainActivity,listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(),123)
             //requestPermissions(listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE).toTypedArray(),111)
