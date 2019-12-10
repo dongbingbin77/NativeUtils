@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.dongbingbin.nativeutils.utils.DelegateArrayList
 import com.dongbingbin.nativeutils.utils.DisplayUtils
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
 import com.dongbingbin.nativeutils.utils.print
@@ -51,6 +52,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         initSonic()
 
         initUI()
+
+        var delegateArray = DelegateArrayList<String>(innerArray=ArrayList<String>())
+        
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(this@MainActivity,listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(),123)
             //requestPermissions(listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE).toTypedArray(),111)

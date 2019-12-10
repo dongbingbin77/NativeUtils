@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -152,6 +153,7 @@ public class BrowserActivity extends Activity {
 
         // init webview
         WebView webView = (WebView) findViewById(R.id.webview);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -193,7 +195,7 @@ public class BrowserActivity extends Activity {
                         BufferedReader bufr = new BufferedReader(isr);
                         String str;
                         while ((str = bufr.readLine()) != null) {
-                            //System.out.println(str);
+                            System.out.println(str);
                         }
                         bufr.close();
                         long end2 = System.currentTimeMillis();

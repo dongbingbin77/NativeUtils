@@ -53,3 +53,10 @@ fun test3():String{
 
     return "123"
 }
+
+object PersonCompare:Comparator<String>{
+    override fun compare(o1: String?, o2: String?): Int {
+        return 1;
+    }
+}
+
