@@ -47,6 +47,7 @@ dependencies {
     api 'com.tencent.tbs.tbssdk:sdk:43697'
     implementation 'com.google.android.material:material:1.0.0'
     implementation('com.didichuxing.doraemonkit:doraemonkit:1.2.1')
+    implementation 'com.google.code.gson:gson:2.8.5'
 //            {
 //        exclude group: 'com.google.code.gson'
 //        exclude group: 'com.google.zxing'

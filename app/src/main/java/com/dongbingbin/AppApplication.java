@@ -11,10 +11,16 @@ import com.dongbingbin.nativeutils.model.Person;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
 import com.fm.openinstall.OpenInstall;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -92,6 +98,35 @@ public class AppApplication extends Application {
     }
 
     private void test(){
+
+
+        String json = "{ \n" +
+                "    \"header\" : { \n" +
+                "        \"alerts\" : [ \n" +
+                "            {\n" +
+                "                \"AlertID\" : \"2\",\n" +
+                "                \"TSExpires\" : null,\n" +
+                "                \"Target\" : \"1\",\n" +
+                "                \"Text\" : \"woot\",\n" +
+                "                \"Type\" : \"1\"\n" +
+                "            },\n" +
+                "            { \n" +
+                "                \"AlertID\" : \"3\",\n" +
+                "                \"TSExpires\" : null,\n" +
+                "                \"Target\" : \"1\",\n" +
+                "                \"Text\" : \"woot\",\n" +
+                "                \"Type\" : \"1\"\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"session\" : \"0bc8d0835f93ac3ebbf11560b2c5be9a\"\n" +
+                "    },\n" +
+                "    \"result\" : \"4be26bc400d3c\"\n" +
+                "}";
+
+        //JSONObject.pa(json);
+
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Map<String, Object> myMap = new Gson().fromJson(json, type);
 
         List<Person> persons = Arrays.asList(new Person("1")
                 ,new Person("1")
