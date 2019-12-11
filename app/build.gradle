@@ -10,6 +10,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [scheme: "a"]
     }
@@ -47,6 +48,9 @@ dependencies {
     api 'com.tencent.tbs.tbssdk:sdk:43697'
     implementation 'com.google.android.material:material:1.0.0'
     implementation('com.didichuxing.doraemonkit:doraemonkit:1.2.1')
+    api ('com.github.bumptech.glide:glide:4.9.0')
+    implementation "androidx.multidex:multidex:2.0.1"
+//    implementation 'com.bestwehotel.app:wh_bgsh_jzvideoplayer:0.0.1'
 //            {
 //        exclude group: 'com.google.code.gson'
 //        exclude group: 'com.google.zxing'

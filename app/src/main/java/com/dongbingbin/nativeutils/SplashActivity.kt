@@ -1,17 +1,22 @@
 package com.dongbingbin.nativeutils
 
+import android.animation.ValueAnimator
 import android.content.Intent
+import android.content.res.AssetFileDescriptor
 import android.graphics.SurfaceTexture
-import android.media.AudioManager
+import android.media.MediaCodec
 import android.media.MediaPlayer
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.Surface
+import android.view.SurfaceHolder
+import android.view.SurfaceView
 import android.view.TextureView
-
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_splash1.*
+
+
 
 class SplashActivity : AppCompatActivity() {
 
@@ -23,6 +28,10 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+
+    private var svStart: SurfaceView? = null
+    private var player: MediaPlayer? = null
+    private var holder: SurfaceHolder? = null
     //定义一个缓冲区句柄（由屏幕合成程序管理）
     private var surface: Surface? = null
     //定义一个媒体播发对象
@@ -34,42 +43,61 @@ class SplashActivity : AppCompatActivity() {
 
         textureview.surfaceTextureListener = surfaceTextureListener
 
+        var valueAnimator = ValueAnimator.ofFloat(0F,1F)
+        valueAnimator.addUpdateListener {
+            textureview.alpha = (it.animatedValue as Float)
+        }
+        valueAnimator.duration = 5000
+        valueAnimator.start()
+
+        //svStart = findViewById(R.id.sv_start);
+//        holder = svStart?.getHolder();
+//
+//        holder?.addCallback(object :SurfaceHolder.Callback{
+//            override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+//
+//            }
+//
+//            override fun surfaceDestroyed(holder: SurfaceHolder?) {
+//                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//            override fun surfaceCreated(holder: SurfaceHolder?) {
+//
+//            }
+//        });
+//        holder?.setKeepScreenOn(true);
+//        player = MediaPlayer();
+//        player?.setDisplay(holder);
+//        player?.setOnPreparedListener(object: MediaPlayer.OnPreparedListener {
+//            @Override
+//            public
+//            override fun onPrepared(mp: MediaPlayer?) {
+//                //svStart.setLayoutParams(lp);
+//                if (!player!!.isPlaying()) {
+//                    player!!.start()
+//                }
+//            }
+//        });
+//
+//        try{
+//            val file: AssetFileDescriptor = resources.openRawResourceFd(R.raw.kk3)
+//            player?.setDataSource(file.fileDescriptor, file.startOffset,
+//                    file.length)
+//            //player?.setDataSource(this,Uri.parse("android.resource://$packageName/"+R.raw.kk3));
+//            //player?.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+//            player?.setLooping(true)
+//            player?.prepare()
+//            //player?.start()
+//        }catch ( ex1:Exception){
+//            ex1.printStackTrace();
+//        }
+
 //        video_view.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/raw/kk"))
 //        video_view.start()
     }
 
 
-    /**
-     * 定义一个线程，用于播发视频
-     */
-    private inner class PlayerVideoThread : Thread() {
-        override fun run() {
-            try {
-                mMediaPlayer = MediaPlayer.create(this@SplashActivity,R.raw.kk)
-                //把res/raw的资源转化为Uri形式访问(android.resource://)
-                //val uri = Uri.parse("android.resource://com.github.davidji80.videoplayer/" + R.raw.ansen)
-                //设置播放资源(可以是应用的资源文件／url／sdcard路径)
-                //mMediaPlayer.setDataSource(this@SplashActivity, uri)
-                //设置渲染画板
-                mMediaPlayer?.setSurface(surface)
-                //设置播放类型
-                //mMediaPlayer?.setAudioStreamType(AudioManager.)
-                //播放完成监听
-                mMediaPlayer?.setOnCompletionListener(onCompletionListener)
-                //预加载监听
-                mMediaPlayer?.setOnPreparedListener{
-                    it.start()
-                }
-                //设置是否保持屏幕常亮
-                mMediaPlayer?.setScreenOnWhilePlaying(true)
-                //同步的方式装载流媒体文件
-                mMediaPlayer?.prepare()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-        }
-    }
 
 
     /**
@@ -96,7 +124,32 @@ class SplashActivity : AppCompatActivity() {
         override fun onSurfaceTextureAvailable(surfaceTexture: SurfaceTexture, i: Int, i1: Int) {
             surface = Surface(surfaceTexture)
             //开启一个线程去播放视频
-            PlayerVideoThread().start()
+            //PlayerVideoThread().start()
+            //mMediaPlayer = MediaPlayer.create(this@SplashActivity,R.raw.kk3)
+            mMediaPlayer = MediaPlayer()
+            mMediaPlayer?.setDataSource(applicationContext,Uri.parse("android.resource://"+packageName+"/" + R.raw.kk3))
+
+            //把res/raw的资源转化为Uri形式访问(android.resource://)
+            //val uri = Uri.parse("android.resource://com.github.davidji80.videoplayer/" + R.raw.ansen)
+            //设置播放资源(可以是应用的资源文件／url／sdcard路径)
+            //mMediaPlayer.setDataSource(this@SplashActivity, uri)
+            //设置渲染画板
+            mMediaPlayer?.setSurface(surface)
+            mMediaPlayer?.setVideoScalingMode(MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING)
+            //设置播放类型
+            //mMediaPlayer?.setAudioStreamType(AudioManager.)
+            //播放完成监听
+            mMediaPlayer?.setOnCompletionListener(onCompletionListener)
+            //预加载监听
+//            mMediaPlayer?.setOnPreparedListener{
+//                it.start()
+//            }
+            //设置是否保持屏幕常亮
+            mMediaPlayer?.setScreenOnWhilePlaying(true)
+            //同步的方式装载流媒体文件
+            mMediaPlayer?.prepare()
+            mMediaPlayer?.start()
+
         }
 
         /**

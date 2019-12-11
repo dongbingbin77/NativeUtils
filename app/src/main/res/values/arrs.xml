@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MoveImageView">
+        <attr name="direction" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="Wetrip_RangeSeekbar">
+        <attr name="WetripseekbarHeight" format="dimension" />
+        <attr name="WetriptextSize" format="dimension" />
+        <attr name="WetripspaceBetween" format="dimension" />
+
+        <attr name="WetripleftCursorBackground" format="reference" />
+        <attr name="WetriprightCursorBackground" format="reference" />
+        <attr name="WetripmarkTextArray" format="reference" />
+        <attr name="WetriptextColorNormal" format="color" />
+        <attr name="WetriptextColorSelected" format="color" />
+        <attr name="WetripseekbarColorNormal" format="color" />
+        <attr name="WetripseekbarColorSelected" format="color" />
+        <attr name="WetripautoMoveDuration" format="integer" />
+
+    </declare-styleable>
+
+    <declare-styleable name="WetripDropDownMenu">
+
+        <attr name="WetripddunderlineColor" format="color"/>
+        <attr name="WetripdddividerColor" format="color"/>
+        <attr name="WetripddtextSelectedColor" format="color"/>
+        <attr name="WetripddtextUnselectedColor" format="color"/>
+        <attr name="WetripddmenuBackgroundColor" format="color"/>
+        <attr name="WetripddmaskColor" format="color"/>
+        <attr name="WetripddmenuTextSize" format="dimension"/>
+        <attr name="WetripddmenuSelectedIcon" format="reference"/>
+        <attr name="WetripddmenuUnselectedIcon" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="calendar_cell">
+        <attr name="state_selectable" format="boolean" />
+        <attr name="state_current_month" format="boolean" />
+        <attr name="state_today" format="boolean" />
+        <attr name="state_range_first" format="boolean" />
+        <attr name="state_range_middle" format="boolean" />
+        <attr name="state_range_last" format="boolean" />
+        <attr name="state_highlighted" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CalendarPickerView">
+        <attr name="android:background" />
+        <attr name="dividerColor" format="color" />
+        <attr name="dayBackground" format="reference" />
+        <attr name="dayTextColor" format="color" />
+        <attr name="titleTextColor1" format="color" />
+        <attr name="displayHeader" format="boolean" />
+        <attr name="headerTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundRelativeLayout">
+        <attr name="radius" format="dimension" />
+        <!--<attr name="topLeftRadius" format="dimension" />-->
+        <!--<attr name="topRightRadius" format="dimension" />-->
+        <!--<attr name="bottomLeftRadius" format="dimension" />-->
+        <!--<attr name="bottomRightRadius" format="dimension" />-->
+    </declare-styleable>
+
+    <declare-styleable name="RoomInformation">
+        <attr name="wetripRoomIndex" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="PersonalItemLinearLayout">
+        <attr name="itemTitle" format="string"/>
+        <attr name="itemDes" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="GuestInfoView">
+        <attr name="guestFirstName" format="string"/>
+        <attr name="guestLastName" format="string"/>
+        <attr name="guestMobilePhone" format="string"/>
+        <attr name="guestEmail" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="ParallaxView">
+        <attr name="speed" format="dimension" />
+        <attr name="src" format="integer" />
+    </declare-styleable>
+</resources>
