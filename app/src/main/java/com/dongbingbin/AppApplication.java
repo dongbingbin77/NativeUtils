@@ -126,7 +126,7 @@ public class AppApplication extends Application {
         //JSONObject.pa(json);
 
         Type type = new TypeToken<Map<String, Object>>(){}.getType();
-        Map<String, Object> myMap = new Gson().fromJson(json, type);
+        Object myMap = new Gson().fromJson(json, Object.class);
 
         List<Person> persons = Arrays.asList(new Person("1")
                 ,new Person("1")
