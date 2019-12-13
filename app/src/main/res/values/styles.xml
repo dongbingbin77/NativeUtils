@@ -13,7 +13,7 @@
         <item name="android:background">@drawable/sonic_button_round_mask</item>
     </style>
 
-    <style name="AppTheme.NoActionBarWithBackGround">
+    <style name="AppTheme.NoActionBarWithBackGround" parent="Theme.AppCompat.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="windowActionBar">true</item>

@@ -18,12 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <SurfaceView
-        android:id="@+id/sv_start"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        />
+
 
 </FrameLayout>
