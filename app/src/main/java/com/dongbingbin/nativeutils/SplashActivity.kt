@@ -36,6 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
         ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_BAR).init()
 
+        var intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
         //textureview.surfaceTextureListener = surfaceTextureListener
 
 //        video_view.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/raw/kk"))

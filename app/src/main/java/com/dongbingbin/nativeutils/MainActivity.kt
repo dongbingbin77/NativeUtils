@@ -25,6 +25,8 @@ import com.dongbingbin.nativeutils.utils.print
 import com.dongbingbin.sonic.SonicJavaScriptInterface
 import com.dongbingbin.sonic.SonicRuntimeImpl
 import com.dongbingbin.widget.MyDialog
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.gyf.immersionbar.ImmersionBar
 import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
@@ -66,6 +68,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             ActivityCompat.requestPermissions(this@MainActivity,listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(),123)
             //requestPermissions(listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE).toTypedArray(),111)
         //}
+
+        var p3 = p1::getName
+
+        val name = p3()
+
+        var funct = {x:String->x}
+
 
         Handler().postDelayed({
             val rectangle = Rect()
