@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splash_drawable"
     >
     <TextureView
         android:id="@+id/textureview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <VideoView

@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Surface
 import android.view.TextureView
+import com.gyf.immersionbar.BarHide
+import com.gyf.immersionbar.ImmersionBar
 
 import kotlinx.android.synthetic.main.activity_splash1.*
 
@@ -32,7 +34,9 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash1)
 
-        textureview.surfaceTextureListener = surfaceTextureListener
+        ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_BAR).init()
+
+        //textureview.surfaceTextureListener = surfaceTextureListener
 
 //        video_view.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/raw/kk"))
 //        video_view.start()
