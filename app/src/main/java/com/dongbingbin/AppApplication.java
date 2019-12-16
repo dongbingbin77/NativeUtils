@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.dongbingbin.nativeutils.model.Person;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
+import com.dongbingbin.nativeutils.utils.SocketServer;
 import com.fm.openinstall.OpenInstall;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class AppApplication extends Application {
 
         DoraemonKit.install(this);
         //DoraemonKit.hide();
-
+        new SocketServer().startActionAsync();
 
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
