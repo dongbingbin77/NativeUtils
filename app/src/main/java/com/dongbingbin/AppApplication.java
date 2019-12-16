@@ -12,10 +12,17 @@ import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
 import com.dongbingbin.nativeutils.utils.SocketServer;
 import com.fm.openinstall.OpenInstall;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -93,6 +100,53 @@ public class AppApplication extends Application {
     }
 
     private void test(){
+
+
+        Gson gson = new GsonBuilder()
+                //.excludeFieldsWithoutExposeAnnotation() //不对没有用@Expose注解的属性进行操作
+                .enableComplexMapKeySerialization() //当Map的key为复杂对象时,需要开启该方法
+                .serializeNulls() //当字段值为空或null时，依然对该字段进行转换
+                .setDateFormat("yyyy-MM-dd HH:mm:ss:SSS") //时间转化为特定格式
+                .setPrettyPrinting() //对结果进行格式化，增加换行
+                .disableHtmlEscaping() //防止特殊字符出现乱码
+               // .registerTypeAdapter(User.class,new UserAdapter()) //为某特定对象设置固定的序列或反序列方式，自定义Adapter需实现JsonSerializer或者JsonDeserializer接口
+                .create();
+
+        Person person = new Person(null);
+
+        person.setAge(10);
+
+        gson.toJson(person);
+
+
+
+        String json = "{ \n" +
+                "    \"header\" : { \n" +
+                "        \"alerts\" : [ \n" +
+                "            {\n" +
+                "                \"AlertID\" : \"2\",\n" +
+                "                \"TSExpires\" : null,\n" +
+                "                \"Target\" : \"1\",\n" +
+                "                \"Text\" : \"woot\",\n" +
+                "                \"Type\" : \"1\"\n" +
+                "            },\n" +
+                "            { \n" +
+                "                \"AlertID\" : \"3\",\n" +
+                "                \"TSExpires\" : null,\n" +
+                "                \"Target\" : \"1\",\n" +
+                "                \"Text\" : \"woot\",\n" +
+                "                \"Type\" : \"1\"\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"session\" : \"0bc8d0835f93ac3ebbf11560b2c5be9a\"\n" +
+                "    },\n" +
+                "    \"result\" : \"4be26bc400d3c\"\n" +
+                "}";
+
+        //JSONObject.pa(json);
+
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Object myMap = new Gson().fromJson(json, Object.class);
 
         List<Person> persons = Arrays.asList(new Person("1")
                 ,new Person("1")

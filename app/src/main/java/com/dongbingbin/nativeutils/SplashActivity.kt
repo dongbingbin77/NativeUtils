@@ -14,6 +14,9 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.TextureView
 import androidx.appcompat.app.AppCompatActivity
+import com.gyf.immersionbar.BarHide
+import com.gyf.immersionbar.ImmersionBar
+
 import kotlinx.android.synthetic.main.activity_splash1.*
 
 
@@ -41,7 +44,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash1)
 
-        textureview.surfaceTextureListener = surfaceTextureListener
+        ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_BAR).init()
+
+        var intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+        //textureview.surfaceTextureListener = surfaceTextureListener
 
         var valueAnimator = ValueAnimator.ofFloat(0F,1F)
         valueAnimator.addUpdateListener {

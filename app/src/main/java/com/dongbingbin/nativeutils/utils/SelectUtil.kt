@@ -5,6 +5,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+fun test4(){
+    var name:String?=null
+
+    name?.let{
+        println(name)
+    }
+}
+
 fun selectType(content:String,phone:(x:String,y:String)->Unit,email:()->Unit){
     when(content){
         !in "a".."z"-> "12"
@@ -32,6 +40,8 @@ fun test(): () -> Unit {
 }
 
 fun test3():String{
+
+
 
     GlobalScope.launch(Dispatchers.Main) {
         for (i in 1..10) {

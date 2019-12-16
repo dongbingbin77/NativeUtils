@@ -4,23 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splash_drawable"
     >
     <TextureView
         android:id="@+id/textureview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <VideoView
         android:id="@+id/video_view"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <SurfaceView
-        android:id="@+id/sv_start"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        />
+
 
 </FrameLayout>
