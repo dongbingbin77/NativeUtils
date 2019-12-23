@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 fun test4(){
-    var name:String?=null
+    var name:String?=""
 
     name?.let{
         println(name)
