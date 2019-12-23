@@ -13,6 +13,7 @@ import com.dongbingbin.nativeutils.model.Person;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
 import com.dongbingbin.widget.TestObservable;
+import com.dongbingbin.nativeutils.utils.SocketServer;
 import com.fm.openinstall.OpenInstall;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +61,7 @@ public class AppApplication extends Application {
 
         DoraemonKit.install(this);
         //DoraemonKit.hide();
-
+        new SocketServer().startActionAsync();
 
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
