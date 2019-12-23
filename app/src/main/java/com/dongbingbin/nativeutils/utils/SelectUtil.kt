@@ -1,15 +1,16 @@
 package com.dongbingbin.nativeutils.utils
 
+import com.dongbingbin.nativeutils.model.Person
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 fun test4(){
-    var name:String?=""
+    var name:String?="123"
 
     name?.let{
-        println(name)
+        println(it)
     }
 }
 
@@ -21,6 +22,8 @@ fun selectType(content:String,phone:(x:String,y:String)->Unit,email:()->Unit){
 
 fun String.print(){
     println(this);
+
+    Person(null)?.apply{}.name?.apply{}?.let {  }
 }
 
 var String.aa:Int
