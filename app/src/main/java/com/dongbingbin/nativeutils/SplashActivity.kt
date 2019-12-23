@@ -3,6 +3,7 @@ package com.dongbingbin.nativeutils
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.content.res.AssetFileDescriptor
+import android.graphics.Bitmap
 import android.graphics.SurfaceTexture
 import android.media.MediaCodec
 import android.media.MediaPlayer
@@ -14,6 +15,10 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.TextureView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.dongbingbin.nativeutils.utils.ScrollingImageView
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 
@@ -46,8 +51,8 @@ class SplashActivity : AppCompatActivity() {
 
         ImmersionBar.with(this).hideBar(BarHide.FLAG_HIDE_BAR).init()
 
-        var intent = Intent(this,MainActivity::class.java)
-        startActivity(intent)
+//        var intent = Intent(this,MainActivity::class.java)
+//        startActivity(intent)
         //textureview.surfaceTextureListener = surfaceTextureListener
 
         var valueAnimator = ValueAnimator.ofFloat(0F,1F)
@@ -55,7 +60,15 @@ class SplashActivity : AppCompatActivity() {
             textureview.alpha = (it.animatedValue as Float)
         }
         valueAnimator.duration = 5000
-        valueAnimator.start()
+        //valueAnimator.start()
+
+        Glide.with(this).asBitmap().load(R.drawable.kuantudemo).into(object:SimpleTarget<Bitmap>(){
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                whhomepage_startup_img_scroll.setBitMap(resource,2);
+                whhomepage_startup_img_scroll.start()
+            }
+        })
+
 
         //svStart = findViewById(R.id.sv_start);
 //        holder = svStart?.getHolder();
