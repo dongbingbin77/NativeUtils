@@ -14,6 +14,7 @@ import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
 import com.dongbingbin.widget.TestObservable;
 import com.dongbingbin.nativeutils.utils.SocketServer;
+import com.dongbingbin.widget.TestOriginObservable;
 import com.fm.openinstall.OpenInstall;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,6 +36,8 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 public class AppApplication extends Application {
 
@@ -159,53 +162,62 @@ public class AppApplication extends Application {
                 ,new Person("4")
     );
 
-        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
+//        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
+//            @Override
+//            public ObservableSource<?> apply(Object o) throws Exception {
+
+//                final CountDownLatch cdl = new CountDownLatch(1);
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        cdl.countDown();
+//                    }
+//                },6000);
+//                cdl.await(10,TimeUnit.SECONDS);
+
+
+//                return Observable.just(Arrays.asList(o)).delay(5,TimeUnit.SECONDS);
+//            }
+//        }).compose(RxUtils.applySchedulersCompute())
+//                .subscribe(new Consumer<Object>() {
+//                    @Override
+//                    public void accept(Object o) throws Exception {
+//
+//                    }
+//                });
+
+//
+//        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
+//            @Override
+//            public ObservableSource<?> apply(Object o) throws Exception {
+
+//                final CountDownLatch cdl = new CountDownLatch(1);
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        cdl.countDown();
+//                    }
+//                },6000);
+//                cdl.await(10,TimeUnit.SECONDS);
+
+
+//                return new TestObservable<List<Object>>(Observable.just(Arrays.asList(o)).delay(1,TimeUnit.SECONDS));
+//            }
+//        }).compose(RxUtils.applySchedulersCompute())
+//                .subscribe(new Consumer<Object>() {
+//                    @Override
+//                    public void accept(Object o) throws Exception {
+//                        System.out.println(o.toString());
+//                    }
+//                });
+
+        new TestObservable<List<Person>>(new TestOriginObservable<List<Person>>(persons))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread()).subscribe(new Consumer<List<Person>>() {
             @Override
-            public ObservableSource<?> apply(Object o) throws Exception {
+            public void accept(List<Person> person) throws Exception {
 
-                final CountDownLatch cdl = new CountDownLatch(1);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        cdl.countDown();
-                    }
-                },6000);
-                cdl.await(10,TimeUnit.SECONDS);
-
-
-                return Observable.just(Arrays.asList(o)).delay(1,TimeUnit.SECONDS);
             }
-        }).compose(RxUtils.applySchedulersCompute())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-
-                    }
-                });
-
-
-        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
-            @Override
-            public ObservableSource<?> apply(Object o) throws Exception {
-
-                final CountDownLatch cdl = new CountDownLatch(1);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        cdl.countDown();
-                    }
-                },6000);
-                cdl.await(10,TimeUnit.SECONDS);
-
-
-                return new TestObservable<List<Object>>(Observable.just(Arrays.asList(o)).delay(1,TimeUnit.SECONDS));
-            }
-        }).compose(RxUtils.applySchedulersCompute())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        System.out.println(o.toString());
-                    }
-                });
+        });
     }
 }

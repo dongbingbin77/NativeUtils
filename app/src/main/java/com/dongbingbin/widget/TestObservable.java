@@ -31,6 +31,13 @@ public class TestObservable <T> extends Observable<T> {
         }
 
         @Override public void onNext(R response) {
+            try {
+                Thread.sleep(5000);
+            }catch (Exception ex1){
+                ex1.printStackTrace();
+            }
+
+            System.out.println("dongbingbin TestObserver onNext:"+Thread.currentThread().getName());
             observer.onNext(response);
         }
 
@@ -51,6 +58,7 @@ public class TestObservable <T> extends Observable<T> {
 
         @Override public void onComplete() {
             observer.onComplete();
+            System.out.println("dongbingbin TestObserver onComplete:"+Thread.currentThread().getName());
         }
     }
 }
