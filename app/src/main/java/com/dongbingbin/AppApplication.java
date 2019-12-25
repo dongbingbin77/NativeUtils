@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.dongbingbin.nativeutils.model.Person;
@@ -16,6 +17,8 @@ import com.dongbingbin.widget.TestObservable;
 import com.dongbingbin.nativeutils.utils.SocketServer;
 import com.dongbingbin.widget.TestOriginObservable;
 import com.fm.openinstall.OpenInstall;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -53,6 +56,12 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         test();
+        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        if (code == ConnectionResult.SUCCESS) {
+            Toast.makeText(this,"谷歌服务可用",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,"谷歌服务不可用",Toast.LENGTH_LONG).show();
+        }
         appApplication = this;
         OpenInstall.init(this);
         String str1 = "1234";

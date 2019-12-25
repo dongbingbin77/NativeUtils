@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.dongbingbin.nativeutils.utils.DelegateArrayList
 import com.dongbingbin.nativeutils.model.Person
+import com.dongbingbin.nativeutils.model.PersonK
 import com.dongbingbin.nativeutils.utils.DisplayUtils
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
 import com.dongbingbin.nativeutils.utils.print
@@ -63,6 +64,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         var p = Person("123")
         var p1 = Person("123")
+
+        var pk1 = PersonK("123",123)
+        var pk2 = PersonK("1234",1234)
+
+        var mapP = listOf<PersonK>(pk1,pk2)
+
+        var mapN = mapP.filter { it.name!=null }.map {
+            val age = it.age
+            age
+        }.average()
 
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(this@MainActivity,listOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).toTypedArray(),123)
