@@ -54,10 +54,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initSonic()
-
+        var mar = mapOf("" to "")
 
         initUI()
-
+        println("123321")
+        println("123321")
+        println("123321")
+        println("123321")
+        println("123321")
         var delegateArray = DelegateArrayList<String>(innerArray=ArrayList<String>())
 
 

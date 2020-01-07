@@ -55,12 +55,13 @@ class SplashActivity : AppCompatActivity() {
 //        startActivity(intent)
         //textureview.surfaceTextureListener = surfaceTextureListener
 
-        var valueAnimator = ValueAnimator.ofFloat(0F,1F)
-        valueAnimator.addUpdateListener {
-            textureview.alpha = (it.animatedValue as Float)
-        }
-        valueAnimator.duration = 5000
-        //valueAnimator.start()
+//        var valueAnimator = ValueAnimator.ofFloat(0F,1F)
+//        valueAnimator.addUpdateListener {
+//            textureview.alpha = (it.animatedValue as Float)
+//        }
+//        valueAnimator.duration = 5000
+//        valueAnimator.start()
+
 
         Glide.with(this).asBitmap().load(R.drawable.kuantudemo).into(object:SimpleTarget<Bitmap>(){
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {

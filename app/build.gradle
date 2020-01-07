@@ -52,6 +52,7 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 //    implementation 'com.bestwehotel.app:wh_bgsh_jzvideoplayer:0.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 //            {
 //        exclude group: 'com.google.code.gson'
 //        exclude group: 'com.google.zxing'

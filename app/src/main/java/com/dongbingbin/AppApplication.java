@@ -6,12 +6,15 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Window;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.dongbingbin.nativeutils.model.Person;
+import com.dongbingbin.nativeutils.utils.CheckAPKComplete;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
+import com.dongbingbin.nativeutils.utils.SelectUtilKt;
 import com.dongbingbin.widget.TestObservable;
 import com.dongbingbin.nativeutils.utils.SocketServer;
 import com.fm.openinstall.OpenInstall;
@@ -21,9 +24,11 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -35,6 +40,8 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+
+import static com.dongbingbin.nativeutils.utils.SelectUtilKt.canAssecssYoutube;
 
 public class AppApplication extends Application {
 
@@ -58,11 +65,22 @@ public class AppApplication extends Application {
         String s2 = new String("Monday");
         NetWorkSpeedUtils obj1 = new NetWorkSpeedUtils(this,null);
         NetWorkSpeedUtils obj2 = new NetWorkSpeedUtils(this,null);
-
+        System.out.println("123321");
+        String sha1 = CheckAPKComplete.apkSHA1(this);
+        long dexcrc = CheckAPKComplete.getDexCrc(this);
         DoraemonKit.install(this);
         //DoraemonKit.hide();
         new SocketServer().startActionAsync();
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //boolean result1 = SelectUtilKt.netPing("https://www.baidu.com");
+                //boolean result2 = SelectUtilKt.netPing("https://www.youtube.com");
+                //if(result2){
+                    //System.out.println("dongbingbin timeout "+result2);
+                //}
+            }
+        }).start();
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -105,6 +123,12 @@ public class AppApplication extends Application {
 
     private void test(){
 
+        canAssecssYoutube(this);
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("1",new Object());
+        hashMap.put("2",Integer.valueOf(1));
+        hashMap.put("3",new GsonBuilder().create());
 
         Gson gson = new GsonBuilder()
                 //.excludeFieldsWithoutExposeAnnotation() //不对没有用@Expose注解的属性进行操作
@@ -157,6 +181,8 @@ public class AppApplication extends Application {
             ,new Person("2")
                 ,new Person("3")
                 ,new Person("4")
+
+
     );
 
         Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
@@ -207,5 +233,33 @@ public class AppApplication extends Application {
                         System.out.println(o.toString());
                     }
                 });
+
+        boolean re = isAvailableByPing("www.youtube.com");
     }
+
+
+    public static boolean isAvailableByPing(String ip) {
+        if (ip == null || ip.length() <= 0) {
+            ip = "223.5.5.5";// 阿里巴巴公共ip
+        }
+        Runtime runtime = Runtime.getRuntime();
+        Process ipProcess = null;
+        try {
+            //-c 后边跟随的是重复的次数，-w后边跟随的是超时的时间，单位是秒，不是毫秒，要不然也不会anr了
+            ipProcess = runtime.exec("ping -c 3 -w 3 "+ip);
+            int exitValue = ipProcess.waitFor();
+            Log.i("Avalible", "Process:" + exitValue);
+            return (exitValue == 0);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            //在结束的时候应该对资源进行回收
+            if (ipProcess != null) {
+                ipProcess.destroy();
+            }
+            runtime.gc();
+        }
+        return false;
+    }
+
 }

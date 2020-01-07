@@ -19,6 +19,6 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
         <item name="android:windowFullscreen">false</item>
-        <item name="android:windowBackground">@drawable/splash_drawable</item>
+        <item name="android:windowBackground">@drawable/home_splash_vsh_full_bg1</item>
     </style>
 </resources>
