@@ -48,12 +48,26 @@ dependencies {
     api 'com.tencent.tbs.tbssdk:sdk:43697'
     implementation 'com.google.android.material:material:1.0.0'
     implementation('com.didichuxing.doraemonkit:doraemonkit:1.2.1')
-    api ('com.github.bumptech.glide:glide:4.9.0')
+    api('com.github.bumptech.glide:glide:4.9.0')
     implementation "androidx.multidex:multidex:2.0.1"
 //    implementation 'com.bestwehotel.app:wh_bgsh_jzvideoplayer:0.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     //implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-base:17.1.0'
+
+    // Litho
+    implementation 'com.facebook.litho:litho-core:0.33.0'
+    implementation 'com.facebook.litho:litho-widget:0.33.0'
+
+    annotationProcessor 'com.facebook.litho:litho-processor:0.33.0'
+
+    // SoLoader
+    implementation 'com.facebook.soloader:soloader:0.6.0'
+
+    // For integration with Fresco
+    implementation 'com.facebook.litho:litho-fresco:0.33.0'
+
+    implementation 'com.facebook.stetho:stetho:1.5.1'
 //            {
 //        exclude group: 'com.google.code.gson'
 //        exclude group: 'com.google.zxing'

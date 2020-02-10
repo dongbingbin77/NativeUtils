@@ -16,6 +16,8 @@ import com.dongbingbin.nativeutils.utils.RxUtils;
 import com.dongbingbin.widget.TestObservable;
 import com.dongbingbin.nativeutils.utils.SocketServer;
 import com.dongbingbin.widget.TestOriginObservable;
+import com.facebook.soloader.SoLoader;
+import com.facebook.stetho.Stetho;
 import com.fm.openinstall.OpenInstall;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -42,6 +44,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.dongbingbin.nativeutils.utils.SelectUtilKt.test5;
+
 public class AppApplication extends Application {
 
     public List<Activity> list = new ArrayList();
@@ -55,6 +59,10 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SoLoader.init(this, false);
+
+        Stetho.initializeWithDefaults(this);
+
         test();
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (code == ConnectionResult.SUCCESS) {
@@ -164,36 +172,36 @@ public class AppApplication extends Application {
         Type type = new TypeToken<Map<String, Object>>(){}.getType();
         Object myMap = new Gson().fromJson(json, Object.class);
 
-        List<Person> persons = Arrays.asList(new Person("1")
+        final List<Person> persons = Arrays.asList(new Person("1")
                 ,new Person("1")
             ,new Person("2")
                 ,new Person("3")
                 ,new Person("4")
     );
 
-//        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
-//            @Override
-//            public ObservableSource<?> apply(Object o) throws Exception {
+        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
+            @Override
+            public ObservableSource<?> apply(Object o) throws Exception {
 
-//                final CountDownLatch cdl = new CountDownLatch(1);
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        cdl.countDown();
-//                    }
-//                },6000);
-//                cdl.await(10,TimeUnit.SECONDS);
+                final CountDownLatch cdl = new CountDownLatch(1);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        cdl.countDown();
+                    }
+                },6000);
+                cdl.await(10,TimeUnit.SECONDS);
 
 
-//                return Observable.just(Arrays.asList(o)).delay(5,TimeUnit.SECONDS);
-//            }
-//        }).compose(RxUtils.applySchedulersCompute())
-//                .subscribe(new Consumer<Object>() {
-//                    @Override
-//                    public void accept(Object o) throws Exception {
-//
-//                    }
-//                });
+                return Observable.just(Arrays.asList(o)).delay(5,TimeUnit.SECONDS);
+            }
+        }).compose(RxUtils.applySchedulersCompute())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+
+                    }
+                });
 
 //
 //        Observable.fromIterable(persons).flatMap(new Function<Object, ObservableSource<?>>() {
@@ -221,12 +229,36 @@ public class AppApplication extends Application {
 //                });
 
         new TestObservable<List<Person>>(new TestOriginObservable<List<Person>>(persons))
+                .onErrorReturn(new Function<Throwable, List<Person>>() {
+            @Override
+            public List<Person> apply(Throwable throwable) throws Exception {
+                return persons;
+            }
+        })
+                .flatMap(new Function<List<Person>, ObservableSource<List<Person>>>() {
+                    @Override
+                    public ObservableSource<List<Person>> apply(List<Person> people) throws Exception {
+                        return new TestObservable<List<Person>>(new TestOriginObservable<List<Person>>(people));
+                    }
+                }).onErrorReturn(new Function<Throwable, List<Person>>() {
+            @Override
+            public List<Person> apply(Throwable throwable) throws Exception {
+                return persons;
+            }
+        })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.newThread()).subscribe(new Consumer<List<Person>>() {
             @Override
             public void accept(List<Person> person) throws Exception {
 
             }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                System.out.println("dongbingbin rx error "+throwable.getMessage());
+            }
         });
+
+        test5();
     }
 }

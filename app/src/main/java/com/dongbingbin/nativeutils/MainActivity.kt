@@ -17,12 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.dongbingbin.nativeutils.utils.DelegateArrayList
 import com.dongbingbin.nativeutils.model.Person
 import com.dongbingbin.nativeutils.model.PersonK
-import com.dongbingbin.nativeutils.utils.DisplayUtils
-import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
-import com.dongbingbin.nativeutils.utils.print
+import com.dongbingbin.nativeutils.utils.*
 import com.dongbingbin.sonic.SonicJavaScriptInterface
 import com.dongbingbin.sonic.SonicRuntimeImpl
 import com.dongbingbin.widget.MyDialog
@@ -33,9 +30,14 @@ import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
 import com.tencent.sonic.sdk.SonicSessionConfig
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
@@ -121,6 +123,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             print("${view.id}")
             startActivity(Intent(this@MainActivity, Main2Activity::class.java));
         }
+
+
 
         test_edit.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -276,6 +280,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         ImmersionBar.with(this)
                 .statusBarColor(R.color.transparent).init()
+
+
+        btn_litho.setOnClickListener {
+            val intent = Intent(this@MainActivity,LithoActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun selectType(content:String,phone:(x:String,y:String)->Unit,email:()->Unit){
@@ -377,7 +387,31 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         // load sonic with offline cache
         val btnSonicWithOfflineCache = findViewById<View>(R.id.btn_sonic_with_offline) as Button
         btnSonicWithOfflineCache.setOnClickListener { startBrowserActivity(MODE_SONIC_WITH_OFFLINE_CACHE) }
+
+        btn_test_rx.setOnClickListener {
+            testRX()
+        }
     }
+
+    private fun testRX(){
+        val persons = Arrays.asList(Person("1"), Person("1"), Person("2"), Person("3"), Person("4")
+        )
+
+        Observable.fromIterable(persons).filter{
+            it.age>1
+        }.compose(RxUtils.applySchedulersIO()).subscribe {
+            println("dongbingbin ${it.name}")
+        }
+
+        Observable.fromIterable(persons).filter{
+            it.age>1
+        }.toList().subscribe { t1, t2 ->
+            println("dongbingbin 11 ${Thread.currentThread().name}")
+
+        }
+        println("dongbingbin 22")
+    }
+
     private fun startBrowserActivity(mode: Int) {
         val intent = Intent(this, BrowserActivity::class.java)
         intent.putExtra(BrowserActivity.PARAM_URL, url)

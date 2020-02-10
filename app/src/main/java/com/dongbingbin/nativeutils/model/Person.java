@@ -5,7 +5,7 @@ import java.util.Date;
 public class Person {
     private String name;
 
-    private int age;
+    private int age=2;
 
     private Date date = new Date();
 

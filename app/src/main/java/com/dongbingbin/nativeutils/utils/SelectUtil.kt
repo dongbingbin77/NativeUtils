@@ -1,10 +1,12 @@
 package com.dongbingbin.nativeutils.utils
 
 import com.dongbingbin.nativeutils.model.Person
+import io.reactivex.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.function.Consumer
 
 fun test4(){
     var name:String?="123"
@@ -13,6 +15,17 @@ fun test4(){
         println(it)
     }
 }
+
+fun test5(){
+    val list = listOf<String>("1","2","3")
+    list.forEach leabel@{
+        if(it=="2"){
+            return@leabel
+        }
+    }
+    println("test 5 end")
+}
+
 
 fun selectType(content:String,phone:(x:String,y:String)->Unit,email:()->Unit){
     when(content){
@@ -45,7 +58,21 @@ fun test(): () -> Unit {
 fun test3():String{
 
 
+    var j = {
+        t:String->{
 
+        }
+    }
+
+    j("123")
+
+        Observable.just("123").map {
+            println(it)
+            false
+        }.compose(RxUtils.applySchedulersCompute())
+                .subscribe{
+
+                }
     GlobalScope.launch(Dispatchers.Main) {
         for (i in 1..10) {
             println("dongbingbin:" + Thread.currentThread().name)

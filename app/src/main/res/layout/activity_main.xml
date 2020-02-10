@@ -113,6 +113,23 @@
                 android:layout_weight="0.02"
                 android:text="@string/reset_clear"
                 />
+
+            <Button
+                android:id="@+id/btn_litho"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="Litho activity"
+                />
+            <Button
+                android:id="@+id/btn_test_rx"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="Litho activity"
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
