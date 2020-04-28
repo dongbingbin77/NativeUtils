@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_drawable"
+    android:background="@drawable/home_splash_vsh_full_bg1"
     >
     <TextureView
         android:id="@+id/textureview"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -19,5 +19,16 @@
         android:layout_height="match_parent"/>
 
 
+<com.dongbingbin.nativeutils.utils.ScrollingImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:id="@+id/whhomepage_startup_img_scroll"
+    />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_view"
+        />
 </FrameLayout>

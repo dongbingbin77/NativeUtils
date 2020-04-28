@@ -3,11 +3,15 @@ package com.dongbingbin.nativeutils
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.content.ServiceConnection
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
+import android.os.IBinder
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -19,14 +23,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.dongbingbin.nativeutils.model.Man
+import com.dongbingbin.nativeutils.model.Part
 import com.dongbingbin.nativeutils.model.Person
 import com.dongbingbin.nativeutils.model.PersonK
 import com.dongbingbin.nativeutils.utils.*
+import com.dongbingbin.nativeutils.utils.DelegateArrayList
+import com.dongbingbin.nativeutils.utils.DisplayUtils
+import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
+import com.dongbingbin.nativeutils.utils.print
 import com.dongbingbin.sonic.SonicJavaScriptInterface
 import com.dongbingbin.sonic.SonicRuntimeImpl
 import com.dongbingbin.widget.MyDialog
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.dongbingbin.widget.MyService
 import com.gyf.immersionbar.ImmersionBar
 import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
@@ -63,18 +72,66 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         val PERMISSION_REQUEST_CODE_STORAGE = 1
     }
+
+
+    var myService:MyService?=null
+
+    var conn: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder: MyService.MyServiceBinder = service as MyService.MyServiceBinder
+            myService = binder.getService()
+            Toast.makeText(applicationContext,"${myService?.result}",Toast.LENGTH_LONG).show()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {}
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mainActivity = this;
         initSonic()
-
+        var mar = mapOf("" to "")
 
         initUI()
-
+        println("123321")
+        println("123321")
+        println("123321")
+        println("123321")
+        println("123321")
         var delegateArray = DelegateArrayList<String>(innerArray=ArrayList<String>())
 
 
+        btn_start_service.setOnClickListener {
+            startService(Intent(this@MainActivity, MyService::class.java))
+        }
+
+        btn_bind_service.setOnClickListener {
+            bindService(Intent(this@MainActivity, MyService::class.java),conn, Context.BIND_AUTO_CREATE)
+        }
+
+        btn_unbind_service.setOnClickListener {
+            try{
+                unbindService(conn)
+            }catch ( ex1:Exception){
+                ex1.printStackTrace();
+            }
+        }
+
+        app_btn_skip_other_app.setOnClickListener {
+            var intent = Intent(Intent.ACTION_VIEW);
+            intent?.setClassName("com.bestwehotel.app.bigshanghai.china.inner","com.bestwehotel.app.whlogin.NewLoginBySMSActivity")
+            intent?.putExtra("kkk",123);
+            //intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivityForResult(intent,3344)
+        }
+
+        btn_stop_service.setOnClickListener {
+            stopService(Intent(this@MainActivity, MyService::class.java))
+        }
+
+        val part: Part<out Person> = Part()
+//        part.setVal(Man("123"))
         var p = Person("123")
         var p1 = Person("123")
 
@@ -582,5 +639,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     fun getDarkModeStatus(context: Context): Boolean {
         val mode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return mode == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //
+        if(requestCode==3344&&data!=null){
+            Toast.makeText(application,data?.getStringExtra("333"),Toast.LENGTH_LONG).show()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

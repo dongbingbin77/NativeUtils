@@ -9,6 +9,7 @@ public class Person {
 
     private Date date = new Date();
 
+
     public Date getDate() {
         return date;
     }

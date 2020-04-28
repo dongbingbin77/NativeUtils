@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'groovyx.grooid.groovy-android'
+
 
 android {
     compileSdkVersion 29
+    flavorDimensions "color","channel"
     defaultConfig {
         applicationId "com.dongbingbin.nativeutils"
         minSdkVersion 17
@@ -68,6 +71,7 @@ dependencies {
     implementation 'com.facebook.litho:litho-fresco:0.33.0'
 
     implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 //            {
 //        exclude group: 'com.google.code.gson'
 //        exclude group: 'com.google.zxing'
