@@ -113,6 +113,60 @@
                 android:layout_weight="0.02"
                 android:text="@string/reset_clear"
                 />
+
+            <Button
+                android:id="@+id/btn_go_service_activity"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="go service Activity"
+                />
+
+            <Button
+                android:id="@+id/btn_start_service"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="开启service"
+                />
+
+            <Button
+                android:id="@+id/btn_bind_service"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="绑定service"
+                />
+            <Button
+                android:id="@+id/btn_unbind_service"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="解绑service"
+                />
+
+            <Button
+                android:id="@+id/btn_stop_service"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="停止service"
+                />
+
+
+            <Button
+                android:id="@+id/app_btn_skip_other_app"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="跳转app"
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

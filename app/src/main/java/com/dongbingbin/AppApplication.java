@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Window;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.dongbingbin.nativeutils.model.Man;
+import com.dongbingbin.nativeutils.model.Part;
 import com.dongbingbin.nativeutils.model.Person;
 import com.dongbingbin.nativeutils.utils.CheckAPKComplete;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
@@ -31,17 +33,26 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.IntBinaryOperator;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.dongbingbin.nativeutils.utils.SelectUtilKt.canAssecssYoutube;
+import static kotlinx.coroutines.android.HandlerDispatcherKt.Main;
 
 public class AppApplication extends Application {
 
@@ -57,6 +68,82 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         test();
+
+//        Part<? extends Person> part = new Part<Person>();
+//        part.setVal(new Man("123"));
+//        List<? extends Person> list = new ArrayList<Man>();
+//        list.add(new Man("!23"))
+
+
+
+        Observable.just(1).flatMap(new Function<Integer, Observable<Person>>() {
+
+            @Override
+            public Observable<Person> apply(Integer integer) throws Exception {
+                return Observable.just(new Person(""));
+            }
+        }).subscribe();
+
+        Observable.just(1).subscribeOn(AndroidSchedulers.mainThread()).flatMap(new Function<Integer, Observable<Person>>() {
+
+            @Override
+            public Observable<Person> apply(Integer integer) throws Exception {
+                return Observable.just(new Person(""));
+            }
+        }).map(new Function<Person, Person>() {
+
+            @Override
+            public Person apply(Person person) throws Exception {
+                return new Person("");
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).map(new Function<Person, Person>() {
+
+            @Override
+            public Person apply(Person person) throws Exception {
+                return new Person("");
+            }
+        }).observeOn(Schedulers.computation()).flatMap(new Function<Person, Observable<Person>>() {
+
+            @Override
+            public Observable<Person> apply(Person person) throws Exception {
+
+                return Observable
+                        .just(1)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .map(new Function<Integer,Person>() {
+                    @Override
+                    public Person apply(Integer integer) throws Exception {
+                        return new Person("");
+                    }
+                });
+            }
+        }).subscribe(new Consumer<Person>() {
+            @Override
+            public void accept(Person person) throws Exception {
+
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+
+            }
+        });
+
+        AtomicInteger ai = new AtomicInteger(0);
+        ai.accumulateAndGet(10, new IntBinaryOperator() {
+            @Override
+            public int applyAsInt(int left, int right) {
+                return left+right;
+            }
+        });
+
+        ai.accumulateAndGet(10, new IntBinaryOperator() {
+            @Override
+            public int applyAsInt(int left, int right) {
+                return left+right;
+            }
+        });
         appApplication = this;
         OpenInstall.init(this);
         String str1 = "1234";
