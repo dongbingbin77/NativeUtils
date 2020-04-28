@@ -2,6 +2,8 @@ package com.dongbingbin.nativeutils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.facebook.litho.Component;
@@ -22,5 +24,9 @@ public class LithoActivity extends AppCompatActivity {
                 .build();
 
         setContentView(LithoView.create(c, component));
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
     }
 }

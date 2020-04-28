@@ -5,7 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="transparent">#00000000</color>
     <color name="button_background">#F3AEF1</color>
-    <color name="button_text">#FFFFFF</color>
+    <color name="button_text">#000000</color>
     <color name="colorDisabled">#808080</color>
 
     <color name="color_1">#FFFF83FA</color>

@@ -8,6 +8,10 @@
     android:orientation="vertical"
     android:fitsSystemWindows="false"
     >
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -130,7 +134,17 @@
                 android:layout_weight="0.02"
                 android:text="Litho activity"
                 />
+
+            <Button
+                android:id="@+id/btn_test_rx_test"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="RX测试"
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

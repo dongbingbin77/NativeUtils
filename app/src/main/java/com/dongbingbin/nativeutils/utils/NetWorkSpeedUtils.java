@@ -10,27 +10,42 @@ import com.fm.openinstall.OpenInstall;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The type Net work speed utils.
+ */
 public class NetWorkSpeedUtils {
     private Context context;
     private Handler mHandler;
  
     private long lastTotalRxBytes = 0;
     private long lastTimeStamp = 0;
- 
+
+    /**
+     * Instantiates a new Net work speed utils.
+     *
+     * @param context  the context
+     * @param mHandler the m handler
+     */
     public NetWorkSpeedUtils(Context context, Handler mHandler){
         this.context = context;
         this.mHandler = mHandler;
 
 
     }
- 
+
+    /**
+     * The Task.
+     */
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
             showNetSpeed();
         }
     };
- 
+
+    /**
+     * Start show net speed.
+     */
     public void startShowNetSpeed(){
         lastTotalRxBytes = getTotalRxBytes();
         lastTimeStamp = System.currentTimeMillis();

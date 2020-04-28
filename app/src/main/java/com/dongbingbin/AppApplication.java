@@ -2,6 +2,7 @@ package com.dongbingbin;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.dongbingbin.nativeutils.MainActivity;
 import com.dongbingbin.nativeutils.model.Person;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
@@ -26,24 +28,32 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+import org.w3c.dom.ls.LSOutput;
 
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.dongbingbin.nativeutils.utils.SelectUtilKt.test4;
 import static com.dongbingbin.nativeutils.utils.SelectUtilKt.test5;
 
 public class AppApplication extends Application {
@@ -63,7 +73,104 @@ public class AppApplication extends Application {
 
         Stetho.initializeWithDefaults(this);
 
+
+
+
+//        final Observable observable1 = Observable.create(new ObservableOnSubscribe() {
+//            @Override
+//            public void subscribe(ObservableEmitter emitter) throws Exception {
+//                BigInteger integer = BigInteger.ZERO;
+//                while(true){
+//
+//                    emitter.onNext(integer);
+//                    integer = integer.add(BigInteger.ONE);
+//                    Thread.sleep(1000);
+//                }
+//            }
+//        });
+
+//        observable1.subscribe(new Consumer() {
+//            @Override
+//            public void accept(Object o) throws Exception {
+//                System.out.println("dongbingbin1 1:"+o);
+//            }
+//        });
+
+//        observable1.subscribeOn(AndroidSchedulers.mainThread()).observeOn(Schedulers.io()).subscribe(new Consumer() {
+//            @Override
+//            public void accept(Object o) throws Exception {
+//                System.out.println("dongbingbin1 2:"+o);
+//            }
+//        });
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                observable1.subscribe(new Consumer() {
+//                    @Override
+//                    public void accept(Object o) throws Exception {
+//                        System.out.println("dongbingbin1 2:"+o);
+//                    }
+//                });
+//            }
+//        },5000);
+
+
+
+        List<String> list22 = new ArrayList<>();
+        list22.add("b");
+        list22.add("a");
+        list22.add("c");
+        System.out.println("1对1:[b, a, c]-->[b, a, c]");
+        //1对1
+        Observable.just(list22)
+                .flatMap(
+                        new Function<List<String>, ObservableSource<?>>() {
+                            @Override
+                            public ObservableSource<?> apply(List<String> s) throws Exception {
+//                                System.out.println("map--1----" + s);
+                                return Observable.fromIterable(s);
+                            }
+                        })
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        System.out.println(o);
+                    }
+                });
+
+
+        System.out.println("多对多:a, b, c-->[a, c]");
+        Observable.just("a", "b", "c")
+                .flatMap(
+                        new Function<String, ObservableSource<?>>() {
+                            @Override
+                            public ObservableSource<?> apply(String s) throws Exception {
+//                                System.out.println("map--1----" + s);
+                                if (s.equalsIgnoreCase("b")) return Observable.empty();
+                                return Observable.just(s);
+                            }
+                        }).flatMap(new Function<Object, ObservableSource<?>>() {
+            @Override
+            public ObservableSource<?> apply(Object o) throws Exception {
+                return Observable.just(123);
+            }
+        }).map(new Function<Object, ObservableSource<?>>() {
+            @Override
+            public ObservableSource<?> apply(Object o) throws Exception {
+                return Observable.just(123);
+            }
+        }).just(321)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        System.out.println(o);
+                    }
+                });
+
+
+
         test();
+        test4();
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (code == ConnectionResult.SUCCESS) {
             Toast.makeText(this,"谷歌服务可用",Toast.LENGTH_LONG).show();
@@ -228,7 +335,11 @@ public class AppApplication extends Application {
 //                    }
 //                });
 
+
+
+
         new TestObservable<List<Person>>(new TestOriginObservable<List<Person>>(persons))
+
                 .onErrorReturn(new Function<Throwable, List<Person>>() {
             @Override
             public List<Person> apply(Throwable throwable) throws Exception {
@@ -261,4 +372,20 @@ public class AppApplication extends Application {
 
         test5();
     }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        switch (newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                // 暗黑模式已开启
+                System.out.println("dongbingbin123 暗黑模式已开启");
+                break;
+            case Configuration.UI_MODE_NIGHT_NO:
+                // 暗黑模式已关闭
+                System.out.println("dongbingbin123 暗黑模式已关闭");
+        }
+        MainActivity.Companion.getMainActivity().recreate();
+    }
+
 }

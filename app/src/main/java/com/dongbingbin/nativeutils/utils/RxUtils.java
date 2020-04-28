@@ -9,6 +9,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class RxUtils {
+
+
     public static <T> ObservableTransformer<T, T> applySchedulersIO() {
         return new ObservableTransformer<T, T>() {
             @Override

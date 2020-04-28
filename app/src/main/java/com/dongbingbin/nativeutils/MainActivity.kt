@@ -2,7 +2,9 @@ package com.dongbingbin.nativeutils
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
@@ -30,21 +32,29 @@ import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
 import com.tencent.sonic.sdk.SonicSessionConfig
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import java.io.File
+import java.math.BigInteger
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
     lateinit var job: Job
 
     var url = "https://zhidao.baidu.com/daily/view?id=186027";
     companion object {
+        var mainActivity:MainActivity?=null
+
         val MODE_DEFAULT = 0
 
         val MODE_SONIC = 1
@@ -56,6 +66,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mainActivity = this;
         initSonic()
 
 
@@ -87,6 +98,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         val name = p3()
 
         var funct = {x:String->x}
+
+//        swipe_btn.setColorSchemeColors(resources.getColor(R.color.color_18)
+//                )
+        swipe_btn.setColorSchemeColors(resources.getColor(R.color.color_18)
+                ,resources.getColor(R.color.color_17)
+                ,resources.getColor(R.color.color_16)
+                ,resources.getColor(R.color.color_15)
+                ,resources.getColor(R.color.color_14))
+
+        swipe_btn.setOnRefreshListener {
+            Handler().postDelayed({
+                swipe_btn.isRefreshing=false
+            },15000)
+        }
+
 
 
         Handler().postDelayed({
@@ -391,7 +417,99 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         btn_test_rx.setOnClickListener {
             testRX()
         }
+
+
+        btn_test_rx_test.setOnClickListener {
+
+
+            var observable = Observable.create<BigInteger> {
+                var i = BigInteger.ZERO
+                while(true){
+                    it.onNext(i)
+                    i = i.add(BigInteger.ONE)
+                    Thread.sleep(1000)
+                }
+            }
+
+            Observable.just(1).map {
+                2
+            }.map {
+                3
+            }.subscribe {
+                4
+            }
+
+            observable.compose(RxUtils.applySchedulersIO()).subscribe {
+                println("dongbingbin ${it}")
+            }
+
+            var consumer=io.reactivex.functions.Consumer<Int>{
+                println("dongbingbin switch 44 "+Thread.currentThread().name)
+                println(it)
+            }
+
+            var consumer2 = object:Observer<Int>{
+                override fun onComplete() {
+
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(t: Int) {
+                    println("dongbingbin cache ${t}")
+                }
+
+                override fun onError(e: Throwable) {
+                }
+            }
+
+            var testObservable1 = Observable.just(1)
+
+            var testObservable2 = testObservable1.map {
+                2
+            }
+
+            var testObservable3 = testObservable2.filter {
+                true
+            }
+
+            var testObservable4 = testObservable3.map {
+                try {
+                    Thread.sleep(1000)
+                }catch(ex:Exception){
+
+                }
+                println("dongbingbin cache 110")
+                Random(System.currentTimeMillis()).nextInt()
+            }.cache().compose(RxUtils.applySchedulersIO())
+
+
+            testObservable4.subscribe(consumer2)
+            testObservable4.subscribe(consumer2)
+            testObservable4.subscribe(consumer2)
+//            var testObservable1 = Observable.just(1)
+//            var testObservable2 = testObservable1.flatMap {
+//                println("dongbingbin switch before 22 "+Thread.currentThread().name)
+//                Observable.just(2).flatMap {
+//                    println("dongbingbin switch 22"+Thread.currentThread().name)
+//                    Observable.just(22)
+//                }
+//                        .compose(RxUtils.applySchedulersIO())
+//            }
+//
+//            var testObservable3 = testObservable2.flatMap {
+//                println("dongbingbin switch before 33 "+Thread.currentThread().name)
+//                Observable.just(3).flatMap {
+//                    println("dongbingbin switch 33"+Thread.currentThread().name)
+//                    Observable.just(33)
+//                }.compose(RxUtils.applySchedulersCompute())
+//            }.compose(RxUtils.applySchedulersIO()).subscribe(consumer)
+//
+//            testObservable3
+        }
     }
+
 
     private fun testRX(){
         val persons = Arrays.asList(Person("1"), Person("1"), Person("2"), Person("3"), Person("4")
@@ -410,6 +528,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         }
         println("dongbingbin 22")
+
+
     }
 
     private fun startBrowserActivity(mode: Int) {
@@ -442,5 +562,25 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                // 暗黑模式已开启
+                println("dongbingbin 暗黑模式已开启")
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                // 暗黑模式已关闭
+                println("dongbingbin 暗黑模式已关闭")
+            }
+        }
+    }
+
+
+    fun getDarkModeStatus(context: Context): Boolean {
+        val mode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return mode == Configuration.UI_MODE_NIGHT_YES
     }
 }

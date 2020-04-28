@@ -37,6 +37,8 @@ public class TestOriginObservable <T> extends Observable<T> {
         }catch (Exception ex1){
             ex1.printStackTrace();
         }
+//        Object o = null;
+//        System.out.println(o.hashCode());
         observer.onComplete();
 
     }
