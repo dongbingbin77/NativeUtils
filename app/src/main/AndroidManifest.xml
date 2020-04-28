@@ -34,9 +34,7 @@
                     android:pathPattern="/x" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WebviewActivity"
-        tools:replace="android:label,android:allowBackup"/>
+
         <service
             android:name="com.dongbingbin.widget.MyService"
             android:enabled="true"

@@ -42,7 +42,7 @@ public class SemaphoreExample1 {
     private final static int threadCount = 20;
 
     public static void main(String[] args) throws Exception {
-        testReturnError();
+       // testReturnError();
         //testSubscrib();
         //testGroup();
         //testScan();
@@ -100,7 +100,7 @@ public class SemaphoreExample1 {
 
     }
 
-    static void test1() throws Exception{
+    static void test1() throws Exception {
         ExecutorService exec = Executors.newCachedThreadPool();
         // 每次最多三个线程获取许可
         final Semaphore semaphore = new Semaphore(3);
@@ -110,34 +110,10 @@ public class SemaphoreExample1 {
             exec.execute(new Runnable() {
                 @Override
                 public void run() {
-        System.in.read();
-//        Observable.just(1).publish().connect();
-//
-//        ExecutorService exec = Executors.newCachedThreadPool();
-//        // 每次最多三个线程获取许可
-//        final Semaphore semaphore = new Semaphore(3);
-//        final CountDownLatch cdl = new CountDownLatch(threadCount);
-//        for (int i = 0; i < threadCount; i++) {
-//            final int threadNum = i;
-//            exec.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        semaphore.acquire(); // 获取一个许可
-//                        test(threadNum);
-//                        semaphore.release(); // 释放一个许可
-//                    } catch (Exception e) {
-//                        //log.error("exception", e);
-//                        e.printStackTrace();
-//                    } finally {
-//                        cdl.countDown();
-//                    }
-//                }
-//            });
-//        }
-//        exec.shutdown();
-//        cdl.await();
-//        System.out.println("over");
+
+                }
+            });
+        }
     }
 
     static void testReturnError(){

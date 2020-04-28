@@ -4,7 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.content.ComponentName
-import android.content.Context
+
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.ServiceConnection

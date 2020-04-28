@@ -57,7 +57,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
+
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -489,52 +489,74 @@ public class AppApplication extends Application {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        switch (newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-            case Configuration.UI_MODE_NIGHT_YES:
-                // 暗黑模式已开启
-                System.out.println("dongbingbin123 暗黑模式已开启");
-                break;
-            case Configuration.UI_MODE_NIGHT_NO:
-                // 暗黑模式已关闭
-                System.out.println("dongbingbin123 暗黑模式已关闭");
-        }
-        MainActivity.Companion.getMainActivity().recreate();
-                return new TestObservable<List<Object>>(Observable.just(Arrays.asList(o)).delay(1,TimeUnit.SECONDS));
-            }
-        }).compose(RxUtils.applySchedulersCompute())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        System.out.println(o.toString());
-                    }
-                });
-
-        boolean re = isAvailableByPing("www.youtube.com");
+//        switch (newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+//            case Configuration.UI_MODE_NIGHT_YES:
+//                // 暗黑模式已开启
+//                System.out.println("dongbingbin123 暗黑模式已开启");
+//                break;
+//            case Configuration.UI_MODE_NIGHT_NO:
+//                // 暗黑模式已关闭
+//                System.out.println("dongbingbin123 暗黑模式已关闭");
+//        }
+//        MainActivity.Companion.getMainActivity().recreate();
+//                return new TestObservable<List<Object>>(Observable.just(Arrays.asList(o)).delay(1,TimeUnit.SECONDS));
+//            }
+//        }).compose(RxUtils.applySchedulersCompute())
+//                .subscribe(new Consumer<Object>() {
+//                    @Override
+//                    public void accept(Object o) throws Exception {
+//                        System.out.println(o.toString());
+//                    }
+//                });
+//
+//        boolean re = isAvailableByPing("www.youtube.com");
     }
 
 
-    public static boolean isAvailableByPing(String ip) {
-        if (ip == null || ip.length() <= 0) {
-            ip = "223.5.5.5";// 阿里巴巴公共ip
-        }
-        Runtime runtime = Runtime.getRuntime();
-        Process ipProcess = null;
-        try {
-            //-c 后边跟随的是重复的次数，-w后边跟随的是超时的时间，单位是秒，不是毫秒，要不然也不会anr了
-            ipProcess = runtime.exec("ping -c 3 -w 3 "+ip);
-            int exitValue = ipProcess.waitFor();
-            Log.i("Avalible", "Process:" + exitValue);
-            return (exitValue == 0);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            //在结束的时候应该对资源进行回收
-            if (ipProcess != null) {
-                ipProcess.destroy();
-            }
-            runtime.gc();
-        }
-        return false;
-    }
+//    public static boolean isAvailableByPing(String ip) {
+//        if (ip == null || ip.length() <= 0) {
+//            ip = "223.5.5.5";// 阿里巴巴公共ip
+//        }
+//        Runtime runtime = Runtime.getRuntime();
+//        Process ipProcess = null;
+//        try {
+//            //-c 后边跟随的是重复的次数，-w后边跟随的是超时的时间，单位是秒，不是毫秒，要不然也不会anr了
+//            ipProcess = runtime.exec("ping -c 3 -w 3 "+ip);
+//            int exitValue = ipProcess.waitFor();
+//            Log.i("Avalible", "Process:" + exitValue);
+//            return (exitValue == 0);
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        } finally {
+//            //在结束的时候应该对资源进行回收
+//            if (ipProcess != null) {
+//                ipProcess.destroy();
+//            }
+//            runtime.gc();
+//        }
+//        return false;
+//    }public static boolean isAvailableByPing(String ip) {
+//        if (ip == null || ip.length() <= 0) {
+//            ip = "223.5.5.5";// 阿里巴巴公共ip
+//        }
+//        Runtime runtime = Runtime.getRuntime();
+//        Process ipProcess = null;
+//        try {
+//            //-c 后边跟随的是重复的次数，-w后边跟随的是超时的时间，单位是秒，不是毫秒，要不然也不会anr了
+//            ipProcess = runtime.exec("ping -c 3 -w 3 "+ip);
+//            int exitValue = ipProcess.waitFor();
+//            Log.i("Avalible", "Process:" + exitValue);
+//            return (exitValue == 0);
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        } finally {
+//            //在结束的时候应该对资源进行回收
+//            if (ipProcess != null) {
+//                ipProcess.destroy();
+//            }
+//            runtime.gc();
+//        }
+//        return false;
+//    }
 
 }
