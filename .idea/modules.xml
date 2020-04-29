@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NativeUtils.iml" filepath="$PROJECT_DIR$/NativeUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NativeUtils.iml" filepath="$PROJECT_DIR$/NativeUtils.iml" group="NativeUtils" />
       <module fileurl="file://$PROJECT_DIR$/app/NativeUtils-app.iml" filepath="$PROJECT_DIR$/app/NativeUtils-app.iml" group="NativeUtils/app" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="NativeUtils/app" />
       <module fileurl="file://$PROJECT_DIR$/demo_project-NativeUtils.iml" filepath="$PROJECT_DIR$/demo_project-NativeUtils.iml" group="NativeUtils" />
       <module fileurl="file://$PROJECT_DIR$/testplugin/testplugin.iml" filepath="$PROJECT_DIR$/testplugin/testplugin.iml" group="NativeUtils/testplugin" />
     </modules>

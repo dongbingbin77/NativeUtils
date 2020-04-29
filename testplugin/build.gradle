@@ -2,17 +2,23 @@
 
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'kotlin'
-gradlePlugin {
-    plugins {
-        shadow {
-            id = "com.tencent.shadow.plugin"
-            implementationClass = "com.tencent.shadow.core.gradle.ShadowPlugin"
-        }
-    }
+apply plugin: 'maven'
+
+//gradlePlugin {
+//    plugins {
+//        shadow {
+//            id = "com.tencent.shadow.plugin"
+//            implementationClass = "com.tencent.shadow.core.gradle.ShadowPlugin"
+//        }
+//    }
+//}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
@@ -22,4 +28,31 @@ dependencies {
     implementation 'com.android.tools.build:gradle:3.2.0'  //老的项目是 2.2 太老了，我改的和project下的build.gradle的gradle版本一致就好了，至少不会出错
     implementation 'org.javassist:javassist:3.22.0-GA'//用于代码注入
     implementation 'com.android.tools.build:transform-api:1.5.0'
+}
+
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+//            repository(url: "http://maven.ejinjiang.com:8080/artifactory/simple/libs-release-local/") {
+//                authentication(userName: "daniel.yang", password: "Jj123456")
+//            }
+            repository(url: "http://nexus.vshanghai.tech/repository/city-releases/") {
+                authentication(userName: "android", password: "android")
+            }
+//            pom.version = "0.0.12"
+//            pom.artifactId = "commonlibrary_bgsh"
+//            pom.groupId = "com.hotelvp.jjzx"
+//            pom.name = "commonlibrary_bgsh"
+//            pom.packaging = 'aar'
+
+            pom.version = "0.0.3"
+            pom.artifactId = "bgsh_testplugin"
+            pom.groupId = "com.yjy.testplugin"
+            pom.name = "bgsh_testplugin"
+            pom.packaging = 'jar'
+        }
+    }
 }

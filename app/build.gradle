@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'groovyx.grooid.groovy-android'
-
+apply plugin: 'test_plugin'
 
 android {
     compileSdkVersion 29
