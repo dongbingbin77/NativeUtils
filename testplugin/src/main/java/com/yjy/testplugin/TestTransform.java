@@ -1,61 +1,32 @@
 package com.yjy.testplugin;
 
+import com.android.build.api.transform.DirectoryInput;
+import com.android.build.api.transform.Format;
+import com.android.build.api.transform.JarInput;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInvocation;
+import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.google.gson.Gson;
+import com.yjy.testplugin.asm.LogClassVisitor;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Set;
 
 public class TestTransform extends Transform {
 
-    /**
-     * Executes the Transform.
-     *
-     * <p>The inputs are packaged as an instance of {@link TransformInvocation}
-     * <ul>
-     *     <li>The <var>inputs</var> collection of {@link TransformInput}. These are the inputs
-     *     that are consumed by this Transform. A transformed version of these inputs must
-     *     be written into the output. What is received is controlled through
-     *     {@link #getInputTypes()}, and {@link #getScopes()}.</li>
-     *     <li>The <var>referencedInputs</var> collection of {@link TransformInput}. This is
-     *     for reference only and should be not be transformed. What is received is controlled
-     *     through {@link #getReferencedScopes()}.</li>
-     * </ul>
-     * <p>
-     * A transform that does not want to consume anything but instead just wants to see the content
-     * of some inputs should return an empty set in {@link #getScopes()}, and what it wants to
-     * see in {@link #getReferencedScopes()}.
-     *
-     * <p>Even though a transform's {@link Transform#isIncremental()} returns true, this method may
-     * be receive <code>false</code> in <var>isIncremental</var>. This can be due to
-     * <ul>
-     *     <li>a change in secondary files ({@link #getSecondaryFiles()},
-     *     {@link #getSecondaryFileOutputs()}, {@link #getSecondaryDirectoryOutputs()})</li>
-     *     <li>a change to a non file input ({@link #getParameterInputs()})</li>
-     *     <li>an unexpected change to the output files/directories. This should not happen unless
-     *     tasks are improperly configured and clobber each other's output.</li>
-     *     <li>a file deletion that the transform mechanism could not match to a previous input.
-     *     This should not happen in most case, except in some cases where dependencies have
-     *     changed.</li>
-     * </ul>
-     * In such an event, when <var>isIncremental</var> is false, the inputs will not have any
-     * incremental change information:
-     * <ul>
-     *     <li>{@link JarInput#getStatus()} will return {@link Status#NOTCHANGED} even though
-     *     the file may be added/changed.</li>
-     *     <li>{@link DirectoryInput#getChangedFiles()} will return an empty map even though
-     *     some files may be added/changed.</li>
-     * </ul>
-     *
-     * @param transformInvocation the invocation object containing the transform inputs.
-     * @throws IOException          if an IO error occurs.
-     * @throws InterruptedException
-     * @throws TransformException   Generic exception encapsulating the cause.
-     */
+
     @Override
     public void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         super.transform(transformInvocation);
@@ -102,5 +73,64 @@ public class TestTransform extends Transform {
     @Override
     public boolean isIncremental() {
         return false;
+    }
+
+
+    static boolean checkFileName(String name) {
+        boolean b = name.endsWith(".class") && !name.startsWith("R$") &&
+                "R.class" != name && "BuildConfig.class" != name;
+        return b;
+    }
+
+    static void injectClassFile(File file) {
+        try {
+            ClassReader classReader = new ClassReader(new FileInputStream(file));
+            ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS);
+            ClassVisitor cv = new LogClassVisitor(classWriter);
+            classReader.accept(cv, ClassReader.EXPAND_FRAMES);
+            byte[] code = classWriter.toByteArray();
+            FileOutputStream fos = new FileOutputStream(
+                    file.getParentFile().getAbsolutePath() + File.separator + file.getName());
+            fos.write(code);
+            fos.close();
+        }catch (Exception ex1){
+            ex1.printStackTrace();
+        }
+
+    }
+
+    static void copyDirectory(DirectoryInput directoryInput, TransformOutputProvider outputProvider) {
+        // 获取output目录
+        File dest = outputProvider.getContentLocation(directoryInput.getName(),
+                directoryInput.getContentTypes(), directoryInput.getScopes(), Format.DIRECTORY);
+
+        // 将input的目录复制到output指定目录
+        try {
+            FileUtils.copyDirectory(directoryInput.getFile(), dest);
+        }catch (Exception ex1){
+            ex1.printStackTrace();
+        }
+
+    }
+
+    static void copyJar(JarInput jarInput, TransformOutputProvider outputProvider) {
+        // 重命名输出文件（同目录copyFile会冲突）
+        // 这里也是我的一个疑惑的地方
+        // 几乎所有网上的代码都是这样的
+        // 难道说是 一个 transform 从一个目录读取 jar 文件，处理完成之后然后写回这个目录？？？
+        String jarName = jarInput.getName();
+        System.out.println("jar = " + jarInput.getFile().getAbsolutePath());
+        String md5Name = DigestUtils.md5Hex(jarInput.getFile().getAbsolutePath());
+        // 避免出现 xxx.jar.jar 这样的名字
+        if (jarName.endsWith(".jar")) {
+            jarName = jarName.substring(0, jarName.length() - 4);
+        }
+        File dest = outputProvider.getContentLocation(jarName + md5Name, jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
+        try {
+            FileUtils.copyFile(jarInput.getFile(), dest);
+        }catch (Exception ex1){
+            ex1.printStackTrace();
+        }
+
     }
 }
