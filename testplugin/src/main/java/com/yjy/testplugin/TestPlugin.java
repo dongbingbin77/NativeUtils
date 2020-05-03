@@ -13,6 +13,6 @@ public class TestPlugin implements Plugin<Project> {
     public void apply(Project project) {
        // AppExtension appExtension = project.getExtensions().getByType(AppExtension);
         AppExtension appExtension = project.getExtensions().getByType(AppExtension.class);
-        appExtension.registerTransform(new TestTransform(), Collections.EMPTY_LIST);
+        appExtension.registerTransform(new TestTransform(project), Collections.EMPTY_LIST);
     }
 }

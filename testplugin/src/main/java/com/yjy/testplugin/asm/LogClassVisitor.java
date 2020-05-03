@@ -33,7 +33,7 @@ public class LogClassVisitor extends ClassVisitor {
         // 我的 demo 是 kotlin，tools里面有工具可以直接查看字节码，就非常方便
         if ("onCreate(Landroid/os/Bundle;)V".equals(name + desc)) {
 
-            System.out.println( "log >>> method name = ${name + desc}");
+            System.out.println( "log >>> method name = "+name + desc);
 
             MethodVisitor methodVisitor = this.cv.visitMethod(access, name, desc, signature, exceptions);
             return new LogMethodVisitor(methodVisitor, name);
@@ -48,7 +48,7 @@ public class LogClassVisitor extends ClassVisitor {
      * @return
      */
     static boolean checkSuperClass(String superName) {
-        System.out.println( "log inject >>> superName = ${superName}");
+        System.out.println( "log inject >>> superName = "+superName);
         return "androidx/appcompat/app/AppCompatActivity".equals(superName);
     }
 

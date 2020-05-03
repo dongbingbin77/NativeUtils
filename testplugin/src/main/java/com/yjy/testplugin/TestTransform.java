@@ -6,6 +6,7 @@ import com.android.build.api.transform.JarInput;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
+import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformInvocation;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
@@ -14,6 +15,7 @@ import com.yjy.testplugin.asm.LogClassVisitor;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
+import org.gradle.api.Project;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -26,12 +28,43 @@ import java.util.Set;
 
 public class TestTransform extends Transform {
 
+    Project mProject;
+
+    public TestTransform(Project mProject) {
+        this.mProject = mProject;
+    }
+
+    private void findClass(File file){
+        if(file.isDirectory()){
+            for(File file1 : file.listFiles()){
+                findClass(file1);
+            }
+        }else{
+            if(checkFileName(file.getName())){
+                injectClassFile(file);
+            }
+        }
+    }
 
     @Override
     public void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         super.transform(transformInvocation);
         Gson gson = new Gson();
         System.out.println("dongbingbin TestTransform:"+gson.toJson(transformInvocation.getInputs()));
+
+        for(TransformInput input : transformInvocation.getInputs()){
+            for(DirectoryInput directoryInput: input.getDirectoryInputs()){
+                for(File file:directoryInput.getFile().listFiles()){
+                    findClass(file);
+                }
+                copyDirectory(directoryInput,transformInvocation.getOutputProvider());
+            }
+
+            for(JarInput jarInput:input.getJarInputs()){
+                copyJar(jarInput,transformInvocation.getOutputProvider());
+            }
+        }
+
     }
 
     /**
@@ -42,7 +75,7 @@ public class TestTransform extends Transform {
      */
     @Override
     public String getName() {
-        return "TestTransform";
+        return "TestTransform1";
     }
 
     /**
