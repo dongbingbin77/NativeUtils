@@ -81,3 +81,14 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+testplugin{
+    registerInfo = [
+        [
+        'scanInterface'             : 'com.bestwehotel.app.componentservice.WHService'
+        , 'codeInsertToClassName'   : 'com.bestwehotel.app.componentservice.WHComponentManager'
+        , 'codeInsertToMethodName'  : 'init' //非static方法
+        , 'registerMethodName'      : 'register' //非static方法
+        ]
+    ]
+}
