@@ -28,5 +28,7 @@ public class LithoActivity extends AppCompatActivity {
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+        String i = "dongbingbin";
+        System.out.println(i);
     }
 }

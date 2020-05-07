@@ -49,7 +49,7 @@ uploadArchives {
 //            pom.name = "commonlibrary_bgsh"
 //            pom.packaging = 'aar'
 
-            pom.version = "0.0.11"
+            pom.version = "0.0.16"
             pom.artifactId = "bgsh_testplugin"
             pom.groupId = "com.yjy.testplugin"
             pom.name = "bgsh_testplugin"
