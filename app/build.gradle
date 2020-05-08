@@ -72,6 +72,7 @@ dependencies {
 
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'com.tencent:mmkv-static:1.1.1'
 //            {
 //        exclude group: 'com.google.code.gson'
 //        exclude group: 'com.google.zxing'
