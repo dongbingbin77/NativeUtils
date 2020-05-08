@@ -9,6 +9,7 @@ public class LogClassVisitor extends ClassVisitor {
 
     private String superName;
     private String[] interfaces;
+    private String className;
 
     public LogClassVisitor(ClassVisitor cv) {
         super(Opcodes.ASM6, cv);
@@ -18,6 +19,7 @@ public class LogClassVisitor extends ClassVisitor {
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         this.superName = superName;
         // 记录该类实现了哪些接口
+        this.className = name;
         this.interfaces = interfaces;
         super.visit(version, access, name, signature, superName, interfaces);
     }
@@ -36,7 +38,7 @@ public class LogClassVisitor extends ClassVisitor {
             System.out.println( "log >>> method name = "+name + desc);
 
             MethodVisitor methodVisitor = this.cv.visitMethod(access, name, desc, signature, exceptions);
-            return new LogMethodVisitor(methodVisitor, name);
+            return new LogMethodVisitor(methodVisitor, name,this.className);
         }
 
         return super.visitMethod(access, name, desc, signature, exceptions);

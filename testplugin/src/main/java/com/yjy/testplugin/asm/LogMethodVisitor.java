@@ -2,16 +2,20 @@ package com.yjy.testplugin.asm;
 
 
 
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 public class LogMethodVisitor extends MethodVisitor {
     String name;
-
-    public LogMethodVisitor(MethodVisitor mv, String name) {
+    String className;
+    public LogMethodVisitor(MethodVisitor mv, String name,String className) {
         super(Opcodes.ASM6, mv);
         this.name = name;
+        this.className = className;
     }
+
 
 
     /**
@@ -31,6 +35,10 @@ public class LogMethodVisitor extends MethodVisitor {
         visitLdcInsn(this.name);
         visitMethodInsn(Opcodes.INVOKESTATIC, "android/util/Log", "e", "(Ljava/lang/String;Ljava/lang/String;)I", false);
 
+        System.currentTimeMillis();
+
+        visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+        visitVarInsn(Opcodes.LSTORE, 10);
 
         visitLdcInsn("dongbingbin2");
         visitVarInsn(Opcodes.ASTORE,8);
@@ -50,6 +58,12 @@ public class LogMethodVisitor extends MethodVisitor {
             visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
             visitVarInsn(Opcodes.ALOAD, 8);
             visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+
+
+
+            visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+            visitVarInsn(Opcodes.LSTORE, 11);
+
         }
         super.visitInsn(opcode);
     }

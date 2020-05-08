@@ -13,6 +13,7 @@ import com.facebook.litho.widget.Text;
 
 public class LithoActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +23,14 @@ public class LithoActivity extends AppCompatActivity {
                 .text("Hello World")
                 .textSizeDip(50)
                 .build();
+
+
+
+        long a = System.currentTimeMillis();
+
+        long b  = System.currentTimeMillis();
+
+        long cc = b-a;
 
         setContentView(LithoView.create(c, component));
         // ATTENTION: This was auto-generated to handle app links.
