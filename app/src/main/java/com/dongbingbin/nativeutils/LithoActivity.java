@@ -3,6 +3,7 @@ package com.dongbingbin.nativeutils;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
 import com.facebook.litho.widget.Text;
+import com.tencent.mmkv.MMKV;
 
 public class LithoActivity extends AppCompatActivity {
 
