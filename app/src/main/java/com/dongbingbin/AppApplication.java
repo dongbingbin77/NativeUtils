@@ -35,7 +35,10 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 import org.w3c.dom.ls.LSOutput;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -91,8 +94,7 @@ public class AppApplication extends Application {
 
         Stetho.initializeWithDefaults(this);
 
-
-
+        InputStream inputStrem = new ByteArrayInputStream("sasjjdlf".getBytes());
 
 //        final Observable observable1 = Observable.create(new ObservableOnSubscribe() {
 //            @Override
