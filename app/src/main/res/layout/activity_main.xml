@@ -196,7 +196,14 @@
                 android:layout_weight="0.02"
                 android:text="to_lottie"
                 />
-
+            <Button
+                android:id="@+id/to_gif"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="to_gif"
+                />
 
             <Button
                 android:id="@+id/app_btn_skip_other_app"

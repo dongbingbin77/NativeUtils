@@ -116,6 +116,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         }
 
+        to_gif.setOnClickListener {
+
+            var intent = Intent(this,MainGifActivity::class.java)
+            startActivity(intent)
+
+        }
+
         GlobalScope.launch {
             var result = async {
                 fun1()

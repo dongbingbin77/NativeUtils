@@ -51,6 +51,7 @@
             android:value="2.4" />
 
         <activity android:name=".Main2Activity" />
+        <activity android:name=".MainGifActivity" />
 
         <activity android:name=".Main4Activity" />
         <activity android:name=".BrowserActivity" />

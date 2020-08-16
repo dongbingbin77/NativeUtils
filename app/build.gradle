@@ -83,7 +83,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
     implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'
     implementation 'com.airbnb.android:lottie:3.0.0'
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.20'
 }
 repositories {
     mavenCentral()
