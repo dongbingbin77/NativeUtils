@@ -83,15 +83,45 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             Toast.makeText(applicationContext,"${myService?.result}",Toast.LENGTH_LONG).show()
         }
 
-        override fun onServiceDisconnected(name: ComponentName) {}
+        override fun onServiceDisconnected(name: ComponentName) {
+            println("dongbingbin myservice onServieDisconnected")
+        }
+    }
+
+    fun fun1():Int{
+        try {
+            Thread.sleep(5000)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
+        return 666
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        test_ttl1.cname = "test1";
+        test_ttl2.cname = "test2";
+
         mainActivity = this;
         initSonic()
         var mar = mapOf("" to "")
+
+        to_lottie.setOnClickListener {
+
+            var intent = Intent(this,Main4Activity::class.java)
+            startActivity(intent)
+
+        }
+
+        GlobalScope.launch {
+            var result = async {
+                fun1()
+            }
+            print(" ${result.await()} dongbingbin")
+        }
 
         initUI()
         println("123321")

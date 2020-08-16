@@ -50,6 +50,8 @@
             android:value="2.4" />
 
         <activity android:name=".Main2Activity" />
+
+        <activity android:name=".Main4Activity" />
         <activity android:name=".BrowserActivity" />
         <activity
             android:name=".DialogActivity"

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.dongbingbin.nativeutils.MainActivity;
 import com.dongbingbin.nativeutils.model.Man;
@@ -91,7 +92,29 @@ public class AppApplication extends Application {
 
         Stetho.initializeWithDefaults(this);
 
+        long begin = System.currentTimeMillis();
 
+        Glide.get(this);
+
+//        for(int i=0;i<50;i++){
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(2000);
+//                    }catch (Exception ex1){
+//                        ex1.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        }
+
+        long end = System.currentTimeMillis();
+
+
+
+        //println("dongbingbin Glide init ${end-begin}")
+        System.out.println("dongbingbin Glide init "+(end-begin)+" 毫秒");
 
 
 //        final Observable observable1 = Observable.create(new ObservableOnSubscribe() {
@@ -250,20 +273,20 @@ public class AppApplication extends Application {
             }
         });
 
-        AtomicInteger ai = new AtomicInteger(0);
-        ai.accumulateAndGet(10, new IntBinaryOperator() {
-            @Override
-            public int applyAsInt(int left, int right) {
-                return left+right;
-            }
-        });
+//        AtomicInteger ai = new AtomicInteger(0);
+//        ai.accumulateAndGet(10, new IntBinaryOperator() {
+//            @Override
+//            public int applyAsInt(int left, int right) {
+//                return left+right;
+//            }
+//        });
 
-        ai.accumulateAndGet(10, new IntBinaryOperator() {
-            @Override
-            public int applyAsInt(int left, int right) {
-                return left+right;
-            }
-        });
+//        ai.accumulateAndGet(10, new IntBinaryOperator() {
+//            @Override
+//            public int applyAsInt(int left, int right) {
+//                return left+right;
+//            }
+//        });
         test4();
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (code == ConnectionResult.SUCCESS) {

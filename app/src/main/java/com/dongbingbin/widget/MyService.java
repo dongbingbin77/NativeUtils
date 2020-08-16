@@ -16,6 +16,8 @@ public class MyService extends Service {
     public MyService() {
     }
 
+    
+
     @Override
     public IBinder onBind(Intent intent) {
         return new MyServiceBinder();
@@ -38,6 +40,32 @@ public class MyService extends Service {
                         count++;
                     }
                 });
+        System.out.println("dongbingbin myservice onCreate");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("dongbingbin myservice onStartCommand");
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+        System.out.println("dongbingbin myservice onRebind");
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        System.out.println("dongbingbin myservice onUnbind");
+        return super.onUnbind(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("dongbingbin myservice onDestroy");
     }
 
     private int count = 0;
