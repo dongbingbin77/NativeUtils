@@ -2,6 +2,7 @@ package com.dongbingbin.demo.concurrent;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -13,6 +14,11 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+
+import com.dongbingbin.nativeutils.utils.DateUtils;
+
+import javax.crypto.spec.PSource;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -41,7 +47,66 @@ import io.reactivex.internal.operators.observable.ObservablePublish;
 public class SemaphoreExample1 {
     private final static int threadCount = 20;
 
+    static String source = " select '$startdate到$sub_end_date的回购' as des, sum(d.buy_count) from (\n" +
+            " select count(*) as buy_count from (\n" +
+            " select distinct b.distinct_id from events as b\n" +
+            "inner join  (\n" +
+            " select distinct distinct_id as adistinct_id from events where event = 'PayTicketOrderDetail' and date = cast('$startdate' as timestamp) \n" +
+            " and commodity_name like '%$keyword%'\n" +
+            "   ) as a on a.adistinct_id=b.distinct_id\n" +
+            "where event = 'PayTicketOrderDetail' \n" +
+            "   \n" +
+            "   \n" +
+            "   and  date between cast('$p1_startdate_p1' as timestamp) and cast('$enddate' as timestamp)\n" +
+            " and commodity_name like '%$keyword%' \n" +
+            "   ) as c \n" +
+            " \n" +
+            "union\n" +
+            "\n" +
+            "select count(*) as buy_count from (\n" +
+            "select distinct_id,count(*) count_dis from events where event = 'PayTicketOrderDetail' and date = cast('$startdate' as timestamp) \n" +
+            " and commodity_name like '%$keyword%'\n" +
+            " group by distinct_id ) as a where count_dis>1\n" +
+            "   ) as d";
+
     public static void main(String[] args) throws Exception {
+        String startdate = "2020-05-29";
+        String enddate = "2020-06-14";
+        String keywords = "银联立减";
+
+        String startdate_plus_1 =DateUtils.dateToString(DateUtils.addDay(DateUtils.stringToDate(startdate),1));
+
+        StringBuilder sb = new StringBuilder();
+
+        Date from =  DateUtils.stringToDate(startdate);
+        Date to = DateUtils.stringToDate(enddate);
+        long days = DateUtils.getDayByMinusDate(from,to);
+
+        for(int i=0;i<=days;i++){
+            String temp = source;
+            String subEndDate = DateUtils.dateToString(DateUtils.addDay(DateUtils.stringToDate(startdate),i));
+            temp = temp.replace("$startdate",startdate);
+            temp = temp.replace("$sub_end_date",subEndDate);
+            temp = temp.replace("$keyword",keywords);
+            temp = temp.replace("$p1_startdate_p1",startdate_plus_1);
+            temp = temp.replace("$enddate",subEndDate);
+            temp = temp.replace("$days",i+"");
+//            sb.append(source.replace("$startdate",startdate));
+//            sb.append(source.replace("$keyword",startdate));
+//            sb.append(source.replace("$startdate+1",startdate_plus_1));
+//            sb.append(source.replace("$enddate",subEndDate));
+//            sb.append(source.replace("$days",days+""));
+            sb.append("\n");
+            sb.append(temp);
+            if(i<days){
+                sb.append("\n");
+                sb.append("union");
+            }
+        }
+
+
+        System.out.println(sb.toString());
+
        // testReturnError();
         //testSubscrib();
         //testGroup();

@@ -206,6 +206,15 @@
                 android:layout_weight="0.02"
                 android:text="跳转app"
                 />
+
+            <Button
+                android:id="@+id/app_btn_calendar_write"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="写日历"
+                />
         </LinearLayout>
         <com.dongbingbin.widget.TestTouchLayout
             android:id="@+id/test_ttl1"

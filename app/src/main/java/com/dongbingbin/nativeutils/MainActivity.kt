@@ -475,6 +475,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         val btnReset = findViewById<View>(R.id.btn_reset) as Button
         btnReset.setOnClickListener { SonicEngine.getInstance().cleanCache() }
 
+        app_btn_calendar_write.setOnClickListener {
+            try{
+                CalendarReminderUtils.addCalendarEvent(this,"测试日历","这是一条测试提醒",System.currentTimeMillis()+2*60*1000,1);
+            }catch (ex1:Exception){
+                ex1.printStackTrace();
+            }
+
+        }
+
         // default btn
         // default btn
         val btnDefault = findViewById<View>(R.id.btn_default_mode) as Button

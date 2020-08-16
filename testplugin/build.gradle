@@ -38,13 +38,16 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-
+            println('file://' + new File(
+                    System.getProperty('user.home'), '.m2/repository').absolutePath)
 //            repository(url: "http://maven.ejinjiang.com:8080/artifactory/simple/libs-release-local/") {
 //                authentication(userName: "daniel.yang", password: "Jj123456")
 //            }
-            repository(url: "http://nexus.vshanghai.tech/repository/city-releases/") {
-                authentication(userName: "android", password: "android")
-            }
+//            repository(url: 'file://' + new File(
+//                    System.getProperty('user.home'), '.m2/repository').absolutePath)
+//            repository(url: "http://nexus.vshanghai.tech/repository/city-releases/") {
+//                authentication(userName: "android", password: "android")
+//            }
 //            pom.version = "0.0.12"
 //            pom.artifactId = "commonlibrary_bgsh"
 //            pom.groupId = "com.hotelvp.jjzx"
