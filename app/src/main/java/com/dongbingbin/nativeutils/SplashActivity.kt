@@ -63,6 +63,8 @@ class SplashActivity : AppCompatActivity() {
 //        valueAnimator.start()
 
 
+
+
         Glide.with(this).asBitmap().load(R.drawable.kuantudemo).into(object:SimpleTarget<Bitmap>(){
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 whhomepage_startup_img_scroll.setBitMap(resource,2);

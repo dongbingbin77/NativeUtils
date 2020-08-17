@@ -80,21 +80,55 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             val binder: MyService.MyServiceBinder = service as MyService.MyServiceBinder
             myService = binder.getService()
-            println("dongbingbin myservice MainActivity onConnected")
             Toast.makeText(applicationContext,"${myService?.result}",Toast.LENGTH_LONG).show()
         }
 
-        override fun onServiceDisconnected(name: ComponentName) {}
+        override fun onServiceDisconnected(name: ComponentName) {
+            println("dongbingbin myservice onServieDisconnected")
+        }
+    }
+
+    fun fun1():Int{
+        try {
+            Thread.sleep(5000)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
+        return 666
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        test_ttl1.cname = "test1";
+        test_ttl2.cname = "test2";
+
         mainActivity = this;
         initSonic()
         var mar = mapOf("" to "")
 
+        to_lottie.setOnClickListener {
 
+            var intent = Intent(this,Main4Activity::class.java)
+            startActivity(intent)
+
+        }
+
+        to_gif.setOnClickListener {
+
+            var intent = Intent(this,MainGifActivity::class.java)
+            startActivity(intent)
+
+        }
+
+        GlobalScope.launch {
+            var result = async {
+                fun1()
+            }
+            print(" ${result.await()} dongbingbin")
+        }
 
         initUI()
         println("123321")
@@ -456,13 +490,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
 
         }
-
-        var testFragment = TestFragment()
-        testFragment.temp_name="dongbingbin";
-
-        var tran = supportFragmentManager.beginTransaction();
-        tran.add(testFragment,"ddd")
-        tran.commitAllowingStateLoss()
 
         // default btn
         // default btn

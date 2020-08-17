@@ -188,6 +188,22 @@
                 android:text="停止service"
                 />
 
+            <Button
+                android:id="@+id/to_lottie"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="to_lottie"
+                />
+            <Button
+                android:id="@+id/to_gif"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="to_gif"
+                />
 
             <Button
                 android:id="@+id/app_btn_skip_other_app"
@@ -207,7 +223,24 @@
                 android:text="写日历"
                 />
         </LinearLayout>
+        <com.dongbingbin.widget.TestTouchLayout
+            android:id="@+id/test_ttl1"
+            android:layout_width="match_parent"
+            android:background="@color/background_debug"
+            android:layout_height="100dp">
+
+            <com.dongbingbin.widget.TestTouchLayout
+                android:id="@+id/test_ttl2"
+                android:layout_gravity="center"
+                android:background="@color/background_error"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+        </com.dongbingbin.widget.TestTouchLayout>
     </LinearLayout>
 </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    
+
+    
 </LinearLayout>
