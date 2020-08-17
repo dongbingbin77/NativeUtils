@@ -63,11 +63,11 @@ public class MyService extends Service {
         return super.onUnbind(intent);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("dongbingbin myservice onDestroy");
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        System.out.println("dongbingbin myservice onDestroy");
+//    }
 
     private int count = 0;
 
@@ -91,21 +91,21 @@ public class MyService extends Service {
         System.out.println("dongbingbin myservice onDestroy");
     }
 
-    /**
-     * Called when all clients have disconnected from a particular interface
-     * published by the service.  The default implementation does nothing and
-     * returns false.
-     *
-     * @param intent The Intent that was used to bind to this service,
-     *               as given to {@link Context#bindService
-     *               Context.bindService}.  Note that any extras that were included with
-     *               the Intent at that point will <em>not</em> be seen here.
-     * @return Return true if you would like to have the service's
-     * {@link #onRebind} method later called when new clients bind to it.
-     */
-    @Override
-    public boolean onUnbind(Intent intent) {
-        System.out.println("dongbingbin myservice onUnbind");
-        return super.onUnbind(intent);
-    }
+//    /**
+//     * Called when all clients have disconnected from a particular interface
+//     * published by the service.  The default implementation does nothing and
+//     * returns false.
+//     *
+//     * @param intent The Intent that was used to bind to this service,
+//     *               as given to {@link Context#bindService
+//     *               Context.bindService}.  Note that any extras that were included with
+//     *               the Intent at that point will <em>not</em> be seen here.
+//     * @return Return true if you would like to have the service's
+//     * {@link #onRebind} method later called when new clients bind to it.
+//     */
+//    @Override
+//    public boolean onUnbind(Intent intent) {
+//        System.out.println("dongbingbin myservice onUnbind");
+//        return super.onUnbind(intent);
+//    }
 }
