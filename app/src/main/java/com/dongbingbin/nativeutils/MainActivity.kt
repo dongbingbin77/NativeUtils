@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             val binder: MyService.MyServiceBinder = service as MyService.MyServiceBinder
             myService = binder.getService()
+            println("dongbingbin myservice MainActivity onConnected")
             Toast.makeText(applicationContext,"${myService?.result}",Toast.LENGTH_LONG).show()
         }
 
@@ -92,6 +93,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         mainActivity = this;
         initSonic()
         var mar = mapOf("" to "")
+
+
 
         initUI()
         println("123321")
@@ -453,6 +456,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
 
         }
+
+        var testFragment = TestFragment()
+        testFragment.temp_name="dongbingbin";
+
+        var tran = supportFragmentManager.beginTransaction();
+        tran.add(testFragment,"ddd")
+        tran.commitAllowingStateLoss()
 
         // default btn
         // default btn

@@ -2,11 +2,17 @@ package com.dongbingbin.nativeutils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 
+import com.dongbingbin.widget.MyService;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
@@ -15,6 +21,18 @@ import com.tencent.mmkv.MMKV;
 
 public class LithoActivity extends AppCompatActivity {
 
+
+    ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            System.out.println("dongbingbin myservice LithoActivity onConnected");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +59,13 @@ public class LithoActivity extends AppCompatActivity {
         Uri appLinkData = appLinkIntent.getData();
         String i = "dongbingbin";
         System.out.println(i);
+        bindService(new Intent(this, MyService.class),conn, Context.BIND_AUTO_CREATE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                unbindService(conn);
+            }
+        },2000);
     }
 }

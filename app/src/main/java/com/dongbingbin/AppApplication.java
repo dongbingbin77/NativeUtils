@@ -18,6 +18,7 @@ import com.dongbingbin.nativeutils.model.Part;
 import com.dongbingbin.nativeutils.model.Person;
 import com.dongbingbin.nativeutils.utils.CheckAPKComplete;
 import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils;
+import com.dongbingbin.nativeutils.utils.PhoneUtils;
 import com.dongbingbin.nativeutils.utils.RxUtils;
 import com.dongbingbin.nativeutils.utils.SelectUtilKt;
 import com.dongbingbin.widget.TestObservable;
@@ -96,6 +97,49 @@ public class AppApplication extends Application {
 
         InputStream inputStrem = new ByteArrayInputStream("sasjjdlf".getBytes());
 
+
+        Observable.just(1).flatMap(new Function<Integer, Observable<Person>>() {
+
+            @Override
+            public Observable<Person> apply(Integer integer) throws Exception {
+//computation thread
+                return Observable.just(new Person(""));
+            }
+        }).map(new Function<Person, Person>() {
+
+            @Override
+            public Person apply(Person person) throws Exception {
+//computation thread
+                return new Person("");
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).map(new Function<Person, Person>() {
+
+            @Override
+            public Person apply(Person person) throws Exception {
+//main thread
+                return new Person("");
+            }
+        }).observeOn(Schedulers.io()).map(new Function<Person, Person>() {
+
+            @Override
+            public Person apply(Person person) throws Exception {
+//io thread
+                return new Person("");
+            }
+        }).subscribeOn(Schedulers.computation()).subscribe(new Consumer<Person>() {
+            @Override
+            public void accept(Person person) throws Exception {
+//computation thread
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+//computation thread
+            }
+        });
+
+        List<String> phone = PhoneUtils.getTelnum("params:{\"issuerID\":\"fdw_shanghai\",\"phone\":\"17802149721\",\"dataType\":\"0\",\"userId\":\"0009740487\",\"spID\":\"d3d56a8ac8a041e8ab0fac904468cea4\",\"token\":\"1BA67F2B62C57206\"},result:{\"message\":\"卡片未开通（ta中不存在对于记录）  错误码:10201\",\"msgCode\":10201}");
+        //System.out.println("dongbingbin phone "+phone);
 //        final Observable observable1 = Observable.create(new ObservableOnSubscribe() {
 //            @Override
 //            public void subscribe(ObservableEmitter emitter) throws Exception {
