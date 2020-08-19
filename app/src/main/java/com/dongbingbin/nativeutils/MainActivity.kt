@@ -116,6 +116,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         }
 
+        test_like.setOnClickListener {
+            test_like.start()
+        }
+
         to_gif.setOnClickListener {
 
             var intent = Intent(this,MainGifActivity::class.java)
