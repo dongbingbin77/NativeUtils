@@ -81,7 +81,7 @@ public class HeaderRefresView extends SimpleComponent {
 //        lottieAnimationView.setProgress(current);
         lottieAnimationView.setMinAndMaxProgress(lottieAnimationView.getProgress(),1.0F);
         lottieAnimationView.setRepeatCount(-1);
-//        lottieAnimationView.setSpeed(3);
+        lottieAnimationView.setSpeed(3);
         lottieAnimationView.playAnimation();
     }
 }
