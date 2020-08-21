@@ -53,7 +53,7 @@
         <activity android:name=".Main2Activity" />
         <activity android:name=".MainGifActivity" />
 
-        <activity android:name=".Main4Activity" />
+        <activity android:name=".Main4Activity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".BrowserActivity" />
         <activity
             android:name=".DialogActivity"
