@@ -19,11 +19,15 @@
         <com.dongbingbin.widget.HeaderRefresView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@color/background_verbose"
             />
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     <FrameLayout

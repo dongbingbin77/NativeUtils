@@ -1,5 +1,6 @@
 package com.dongbingbin.nativeutils
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
@@ -30,11 +31,18 @@ class Main4Activity : AppCompatActivity() {
 
 
 
+    fun test_click(view:View){
+        finish()
+        var itent = Intent(this,Main2Activity::class.java)
+        startActivity(itent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main4)
         //addLottie()
         animationView.speed = 0.3f
+        refreshLayout_1.setEnableLoadMore(true)
         refreshLayout.setOnTouchListener(object:View.OnTouchListener{
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
