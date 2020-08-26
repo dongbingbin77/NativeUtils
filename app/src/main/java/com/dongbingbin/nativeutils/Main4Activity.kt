@@ -43,6 +43,9 @@ class Main4Activity : AppCompatActivity() {
         //addLottie()
         animationView.speed = 0.3f
         refreshLayout_1.setEnableLoadMore(true)
+        refreshLayout_1.setOnLoadMoreListener {
+            refreshLayout_1.finishLoadMore()
+        }
         refreshLayout.setOnTouchListener(object:View.OnTouchListener{
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
