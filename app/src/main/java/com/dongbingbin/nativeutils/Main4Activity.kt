@@ -1,20 +1,18 @@
 package com.dongbingbin.nativeutils
 
+import android.animation.ValueAnimator
+import android.animation.ValueAnimator.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.dongbingbin.nativeutils.model.Person
 import kotlinx.android.synthetic.main.activity_main4.*
 import kotlinx.android.synthetic.main.activity_main4.refreshLayout
-import kotlinx.android.synthetic.main.activity_main_gif.*
-import kotlinx.android.synthetic.main.activity_main_gif.lottie_list as lottie_list1
 
 class Main4Activity : AppCompatActivity() {
 
@@ -34,7 +32,17 @@ class Main4Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main4)
         //addLottie()
-        animationView.speed = 0.3f
+        //val animationView = findViewById(android.R.id.asset_lottie_view) as LottieAnimationView
+        asset_lottie_view.imageAssetsFolder="images/"
+        asset_lottie_view.setAnimation("data_asset_lottie.json")
+        asset_lottie_view.loop(true)
+
+        asset_lottie_view.playAnimation()
+
+//        animationView.setAnimation("data.json")
+//        animationView.loop(true)
+//        animationView.playAnimation()
+//        animationView.speed = 0.3f
         refreshLayout.setOnTouchListener(object:View.OnTouchListener{
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
