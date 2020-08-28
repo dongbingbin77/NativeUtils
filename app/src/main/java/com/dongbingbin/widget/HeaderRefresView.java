@@ -53,7 +53,7 @@ public class HeaderRefresView extends SimpleComponent {
     public void onMoving(boolean isDragging, float percent, int offset, int height, int maxDragHeight) {
         super.onMoving(isDragging, percent, offset, height, maxDragHeight);
         System.out.println("dongbingbin onMoving:"+percent);
-        if(percent/ 3<0.35F&&isDragging) {
+        if(percent/ 3<1F&&isDragging) {
             current = percent / 3;
             lottieAnimationView.setProgress(current);
         }

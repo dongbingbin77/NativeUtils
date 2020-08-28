@@ -2,6 +2,7 @@ package com.dongbingbin.nativeutils
 
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.*
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
@@ -27,6 +28,12 @@ class Main4Activity : AppCompatActivity() {
     var last_move_y=0F
 
 
+
+    fun test_click(view:View){
+        finish()
+        var itent = Intent(this,Main2Activity::class.java)
+        startActivity(itent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
