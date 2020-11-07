@@ -69,6 +69,7 @@ public class SemaphoreExample1 {
             " group by distinct_id ) as a where count_dis>1\n" +
             "   ) as d";
 
+
     public static void main(String[] args) throws Exception {
         String startdate = "2020-05-29";
         String enddate = "2020-06-14";

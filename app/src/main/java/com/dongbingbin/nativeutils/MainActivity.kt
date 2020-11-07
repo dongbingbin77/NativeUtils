@@ -23,6 +23,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.dongbingbin.nativeutils.databinding.DataBindingDemoActivity
 import com.dongbingbin.nativeutils.model.Man
 import com.dongbingbin.nativeutils.model.Part
 import com.dongbingbin.nativeutils.model.Person
@@ -104,7 +105,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         test_ttl1.cname = "test1";
         test_ttl2.cname = "test2";
-
+        app_btn_databinding_activity.setOnClickListener {
+            var intent = Intent(this,DataBindingDemoActivity::class.java)
+            startActivity(intent)
+        }
         mainActivity = this;
         initSonic()
         var mar = mapOf("" to "")

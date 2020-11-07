@@ -46,11 +46,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
+        <activity
+            android:name=".databinding.DataBindingDemoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.4" />
 
         <activity android:name=".Main2Activity" />
+
+        <activity android:name=".RecyclerViewActivity" />
+
         <activity android:name=".MainGifActivity" />
 
         <activity android:name=".Main4Activity" android:theme="@style/Theme.AppCompat.NoActionBar"/>

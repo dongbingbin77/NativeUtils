@@ -335,6 +335,7 @@ public class AppApplication extends Application {
 //                return left+right;
 //            }
 //        });
+
         test4();
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (code == ConnectionResult.SUCCESS) {

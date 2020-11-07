@@ -222,6 +222,14 @@
                 android:layout_weight="0.02"
                 android:text="写日历"
                 />
+            <Button
+                android:id="@+id/app_btn_databinding_activity"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="DataBinding_Activity"
+                />
         </LinearLayout>
 
         <com.dongbingbin.widget.zan.LikeAnimationView
