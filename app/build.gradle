@@ -3,7 +3,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'groovyx.grooid.groovy-android'
 apply plugin: 'test_plugin'
-
+ apply plugin: 'dagger.hilt.android.plugin'
+ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     flavorDimensions "color","channel"
@@ -88,6 +89,10 @@ dependencies {
     implementation  'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
     implementation 'com.airbnb.android:lottie:3.0.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.20'
+    implementation "com.google.dagger:hilt-android:2.29.1-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.29.1-alpha"
+
+
 }
 repositories {
     mavenCentral()

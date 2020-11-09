@@ -2,13 +2,22 @@ package com.dongbingbin.nativeutils.model;
 
 import com.dongbingbin.nativeutils.BR;
 
+import javax.inject.Inject;
+
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-public class User extends BaseObservable {
+public class  User extends BaseObservable {
+    @Inject
+    public User() {
+    }
+
     private String name;
 
     private String sex;
+
+    @Inject public PersonK personK;
+
     @Bindable
     public String getName() {
         return name;
