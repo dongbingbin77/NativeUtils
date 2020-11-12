@@ -57,6 +57,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.IntBinaryOperator;
 
 import androidx.annotation.NonNull;
+import dagger.hilt.android.HiltAndroidApp;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -79,6 +80,7 @@ import io.reactivex.schedulers.Schedulers;
 import static com.dongbingbin.nativeutils.utils.SelectUtilKt.test4;
 import static com.dongbingbin.nativeutils.utils.SelectUtilKt.test5;
 
+@HiltAndroidApp
 public class AppApplication extends Application {
 
     public List<Activity> list = new ArrayList();
@@ -335,6 +337,7 @@ public class AppApplication extends Application {
 //                return left+right;
 //            }
 //        });
+
         test4();
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (code == ConnectionResult.SUCCESS) {

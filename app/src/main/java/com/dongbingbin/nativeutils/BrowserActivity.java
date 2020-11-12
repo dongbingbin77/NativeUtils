@@ -31,6 +31,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.dongbingbin.demo.concurrent.Animal;
+import com.dongbingbin.demo.concurrent.Cat;
 import com.dongbingbin.sonic.SonicJavaScriptInterface;
 import com.dongbingbin.sonic.SonicRuntimeImpl;
 import com.dongbingbin.sonic.SonicSessionClientImpl;
@@ -53,6 +55,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

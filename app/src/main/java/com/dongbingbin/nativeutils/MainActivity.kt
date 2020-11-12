@@ -23,10 +23,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.dongbingbin.nativeutils.model.Man
-import com.dongbingbin.nativeutils.model.Part
-import com.dongbingbin.nativeutils.model.Person
-import com.dongbingbin.nativeutils.model.PersonK
+import com.dongbingbin.demo.concurrent.Animal
+import com.dongbingbin.nativeutils.databinding.DataBindingDemoActivity
+import com.dongbingbin.nativeutils.model.*
 import com.dongbingbin.nativeutils.utils.*
 import com.dongbingbin.nativeutils.utils.DelegateArrayList
 import com.dongbingbin.nativeutils.utils.DisplayUtils
@@ -40,6 +39,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.tencent.sonic.sdk.SonicConfig
 import com.tencent.sonic.sdk.SonicEngine
 import com.tencent.sonic.sdk.SonicSessionConfig
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -53,13 +53,16 @@ import org.reactivestreams.Subscription
 import java.io.File
 import java.math.BigInteger
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CoroutineScope {
     lateinit var job: Job
-
+    @Inject lateinit var personK: PersonK
+    @Inject lateinit var user:User
     var url = "https://zhidao.baidu.com/daily/view?id=186027";
     companion object {
         var mainActivity:MainActivity?=null
@@ -101,10 +104,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        println("dongbingbin @Inject personk:${personK.name} ")
+        personK.name = "jjjjj"
+
 
         test_ttl1.cname = "test1";
         test_ttl2.cname = "test2";
-
+        app_btn_databinding_activity.setOnClickListener {
+            var intent = Intent(this,DataBindingDemoActivity::class.java)
+            startActivity(intent)
+        }
         mainActivity = this;
         initSonic()
         var mar = mapOf("" to "")

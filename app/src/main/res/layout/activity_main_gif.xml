@@ -9,6 +9,30 @@
         android:id="@+id/gif_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlDragRate="0.7"
+        app:srlHeaderMaxDragRate="1.3"
+        app:srlEnableLoadMore="false"
+        app:srlAccentColor="@android:color/white"
+        app:srlPrimaryColor="@android:color/transparent">
+        <com.dongbingbin.widget.HeaderRefresViewGif
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/background_verbose"
+            />
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
     <ScrollView
         android:visibility="gone"
         android:id="@+id/scroll_view"
