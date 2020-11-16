@@ -45,7 +45,10 @@
             android:name=".WebviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
+        <activity
+            android:name=".SHBankHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".databinding.DataBindingDemoActivity"
             android:screenOrientation="portrait"

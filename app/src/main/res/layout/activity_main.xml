@@ -230,6 +230,16 @@
                 android:layout_weight="0.02"
                 android:text="DataBinding_Activity"
                 />
+
+
+            <Button
+                android:id="@+id/app_btn_test_shbank_activity"
+                style="@style/SonicButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.02"
+                android:text="测试上海银行job"
+                />
         </LinearLayout>
 
         <com.dongbingbin.widget.zan.LikeAnimationView

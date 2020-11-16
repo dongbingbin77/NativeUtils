@@ -15,6 +15,7 @@ import android.os.IBinder
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Button
@@ -59,8 +60,8 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), CoroutineScope {
-    lateinit var job: Job
+class MainActivity : AppCompatActivity() {
+    var job: Job?=null
     @Inject lateinit var personK: PersonK
     @Inject lateinit var user:User
     var url = "https://zhidao.baidu.com/daily/view?id=186027";
@@ -100,13 +101,58 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         return 666
     }
+    private fun setUserInfo(userInfo: String) {
+        Log.e("dongbingbin 协", userInfo)
+    }
 
+    private suspend fun getToken(): String {
+        delay(2000)
+        return "token"
+    }
+
+    private suspend fun getUserInfo(token: String): String {
+        delay(2000)
+        return "$token - userInfo"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         println("dongbingbin @Inject personk:${personK.name} ")
         personK.name = "jjjjj"
+        app_btn_test_shbank_activity.setOnClickListener {
+            var intent = Intent(this,SHBankHomeActivity::class.java)
+            startActivity(intent)
+        }
+        GlobalScope.launch (Dispatchers.Main) {
+            val token = getToken()
+            val userInfo = getUserInfo(token)
+            setUserInfo(userInfo)
+            val result =  withTimeout(900) {
+                repeat(3) {
+                    println("hello: $it")
+                    delay(400)
+                }
+                "hello world"
+            }
+            println("dongbingbin with time $result")
+        }
 
+        val job1 = GlobalScope.launch(Dispatchers.Default) {
+
+            println("Current Thread : ${Thread.currentThread().name}")
+
+        }
+
+        var job = GlobalScope.launch {
+            delay(6000)
+            Log.e("1", "协程执行结束 -- 线程id：${Thread.currentThread().id}")
+        }
+        Log.e("2", "主线程执行结束")
+
+
+        repeat(8){
+            Log.e("dongbingbin 协","主线程执行$it ${Thread.currentThread().name}")
+        }
 
         test_ttl1.cname = "test1";
         test_ttl2.cname = "test2";
@@ -313,19 +359,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
 //        var begin2=System.currentTimeMillis();
 //        for (i in 1..100) {
-        launch {
-            println("dongbingbin 1:" + Thread.currentThread().name)
-            val ioData = async(Dispatchers.IO) {
-                // <- launch scope 的扩展函数，指定了 IO dispatcher，所以在 IO 线程运行
-                // 在这里执行阻塞的 I/O 耗时操作
-                println("dongbingbin 2:" + Thread.currentThread().name)
-            }
-
-            // 和上面的并非 I/O 同时执行的其他操作
-            val data = ioData.await() // 等待阻塞 I/O 操作的返回结果
-            println("dongbingbin 3:" + Thread.currentThread().name)
-            //draw(data) // 在 UI 线程显示执行的结果
-        }
+//        launch {
+//            println("dongbingbin 1:" + Thread.currentThread().name)
+//            val ioData = async(Dispatchers.IO) {
+//                // <- launch scope 的扩展函数，指定了 IO dispatcher，所以在 IO 线程运行
+//                // 在这里执行阻塞的 I/O 耗时操作
+//                println("dongbingbin 2:" + Thread.currentThread().name)
+//            }
+//
+//            // 和上面的并非 I/O 同时执行的其他操作
+//            val data = ioData.await() // 等待阻塞 I/O 操作的返回结果
+//            println("dongbingbin 3:" + Thread.currentThread().name)
+//            //draw(data) // 在 UI 线程显示执行的结果
+//        }
 //        }
 
         // 和上面的并非 I/O 同时执行的其他操作
@@ -466,8 +512,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         println("dongbingbin:onRestart")
     }
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job//To change initializer of created properties use File | Settings | File Templates.
+//    override val coroutineContext: CoroutineContext
+//        get() = Dispatchers.Main + job//To change initializer of created properties use File | Settings | File Templates.
 
 
     fun copyFolder(srcFolder: String, desFolder: String): Unit {
