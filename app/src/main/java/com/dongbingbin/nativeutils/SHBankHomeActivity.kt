@@ -76,6 +76,7 @@ class SHBankHomeActivity :AppCompatActivity() {
                     getPayCode()
                 }
                 if (payCode == null) {
+                    println("dongbingbin shbank 支付码 超时")
                     delay(1000)
                 } else {
                     //轮询支付结果
@@ -97,6 +98,7 @@ class SHBankHomeActivity :AppCompatActivity() {
                     getPayResult()
                 }
                 if (payResult == null) {
+                    println("dongbingbin shbank 支付码 超时")
                     delay(2000)
                 } else {
                     //处理支付结果
@@ -113,19 +115,19 @@ class SHBankHomeActivity :AppCompatActivity() {
 
     suspend fun getPaySerialNumber():String{
         delay(1000)
-        println("dongbingbin shbank 获取流水号")
+        println("dongbingbin shbank 获取流水号 ${Thread.currentThread().name}")
         return "流水号"
     }
 
     suspend fun getPayCode():String{
-        delay(1000)
-        println("dongbingbin shbank 支付码")
+        delay(3000)
+        println("dongbingbin shbank 支付码 ${Thread.currentThread().name}")
         return "支付码"
     }
 
     suspend fun getPayResult():String{
         delay(2000)
-        println("dongbingbin shbank 获取支付结果")
+        println("dongbingbin shbank 获取支付结果 ${Thread.currentThread().name}")
         return "支付结果"
     }
 
