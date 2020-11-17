@@ -14,7 +14,7 @@ class SHBankHomeActivity :AppCompatActivity() {
     }
 
     fun stopSearialNumberJob(view: View){
-        getPaySerialNumberJob?.cancel()
+        cancelPaySerialNumberJob()
     }
 
     fun startSearialNumberJob(view: View){
@@ -22,7 +22,7 @@ class SHBankHomeActivity :AppCompatActivity() {
     }
 
     fun stopPayCodeJob(view: View){
-        getPayCodeJob?.cancel()
+       stopPayCodeJob()
     }
 
     fun startPayCodeJob(view: View){
@@ -31,7 +31,8 @@ class SHBankHomeActivity :AppCompatActivity() {
 
 
     fun stopPayResultJob(view: View){
-        getPayResultJob?.cancel()
+//        getPayResultJob?.cancel()
+        stopPayResultJob()
     }
 
     fun startPayResultJob(view: View){
@@ -40,6 +41,10 @@ class SHBankHomeActivity :AppCompatActivity() {
 
     private fun test(){
         launchPaySerialNumberJob()
+    }
+
+    private fun cancelPaySerialNumberJob(){
+        getPaySerialNumberJob?.cancel()
     }
 
     private fun launchPaySerialNumberJob() {
@@ -59,6 +64,10 @@ class SHBankHomeActivity :AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun stopPayCodeJob(){
+        getPayCodeJob?.cancel()
     }
 
     private fun launchPayCodeJob() {
@@ -85,6 +94,10 @@ class SHBankHomeActivity :AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun stopPayResultJob(){
+        getPayResultJob?.cancel()
     }
 
     private fun launchPayResultJob() {
