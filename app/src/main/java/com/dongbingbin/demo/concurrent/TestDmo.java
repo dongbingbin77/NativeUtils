@@ -23,7 +23,12 @@ public class TestDmo {
         Animal animal = new Dog();
         Dog dog = new Dog();
 
-        animal.move();
+        try {
+            animal.move();
+        }catch (Exception ex1){
+            ex1.printStackTrace();
+        }
+
         dog.move();
     }
 }

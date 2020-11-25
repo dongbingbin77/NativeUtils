@@ -2,12 +2,11 @@ package com.dongbingbin.nativeutils
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.Context
 import android.content.ComponentName
-
+import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.ServiceConnection
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +14,7 @@ import android.os.IBinder
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Button
@@ -23,14 +23,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.dongbingbin.demo.concurrent.Animal
 import com.dongbingbin.nativeutils.databinding.DataBindingDemoActivity
-import com.dongbingbin.nativeutils.model.*
+import com.dongbingbin.nativeutils.model.Part
+import com.dongbingbin.nativeutils.model.Person
+import com.dongbingbin.nativeutils.model.PersonK
+import com.dongbingbin.nativeutils.model.User
 import com.dongbingbin.nativeutils.utils.*
-import com.dongbingbin.nativeutils.utils.DelegateArrayList
-import com.dongbingbin.nativeutils.utils.DisplayUtils
-import com.dongbingbin.nativeutils.utils.NetWorkSpeedUtils
-import com.dongbingbin.nativeutils.utils.print
 import com.dongbingbin.sonic.SonicJavaScriptInterface
 import com.dongbingbin.sonic.SonicRuntimeImpl
 import com.dongbingbin.widget.MyDialog
@@ -42,14 +40,13 @@ import com.tencent.sonic.sdk.SonicSessionConfig
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
+import kotlinx.coroutines.rx2.await
 import java.io.File
 import java.math.BigInteger
 import java.util.*
@@ -61,11 +58,14 @@ import kotlin.random.Random
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), CoroutineScope {
     lateinit var job: Job
-    @Inject lateinit var personK: PersonK
-    @Inject lateinit var user:User
+    @Inject
+    lateinit var personK: PersonK
+    @Inject
+    lateinit var user: User
     var url = "https://zhidao.baidu.com/daily/view?id=186027";
+
     companion object {
-        var mainActivity:MainActivity?=null
+        var mainActivity: MainActivity? = null
 
         val MODE_DEFAULT = 0
 
@@ -77,13 +77,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
 
-    var myService:MyService?=null
+    var myService: MyService? = null
 
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             val binder: MyService.MyServiceBinder = service as MyService.MyServiceBinder
             myService = binder.getService()
-            Toast.makeText(applicationContext,"${myService?.result}",Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "${myService?.result}", Toast.LENGTH_LONG).show()
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -91,16 +91,71 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    fun fun1():Int{
+    fun fun1(): Int {
         try {
             Thread.sleep(5000)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         return 666
     }
 
+
+    fun move() {
+        println("animal move")
+    }
+
+    private fun fetchUserFromServer(): Single<User1> {
+//        Observable.create<User> {
+//
+//        }
+
+        return Single.create<User1> {
+            Log.d("demo", "(1) fetchUserFromServer start, ${Thread.currentThread()}")
+            Thread.sleep(3_000)
+//            it.onSuccess(User1())
+//            try {
+                it.onError(Exception("123"))
+//            }catch (ex:Exception){
+//                ex.printStackTrace()
+//            }
+
+            Log.d("demo", "(2) fetchUserFromServer onSuccess, ${Thread.currentThread()}")
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+
+        //return Observable.just(User()).subscribeOn(Schedulers.io()).
+
+
+
+    }
+//
+//            Single.create<User> {
+//                Log.d("demo", "(1) fetchUserFromServer start, ${Thread.currentThread()}")
+//                Thread.sleep(3_000)
+//                it.onSuccess(User())
+//                Log.d("demo", "(2) fetchUserFromServer onSuccess, ${Thread.currentThread()}")
+//            }.subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+
+    private fun updateUser(user: User1) {
+        Log.d("demo", "(3) updateUser, ${Thread.currentThread()}")
+    }
+
+
+
+    interface Callback {
+        fun onSuccess(user: User1)
+        fun onFailure(exception: Exception)
+    }
+
+    class User1{
+        var name:String?="";
+        var age:Int?=0
+    }
+
+    var job2:Job?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -136,12 +191,50 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         }
 
-        GlobalScope.launch {
+
+
+
+
+        var job2 = GlobalScope.launch(Dispatchers.Main) {
+            println("dongbingbin Thread job1 before name ${Thread.currentThread().name}")
+            repeat(3) lev1@ {i->
+                if(i>1) {
+                    return@lev1
+                }
+            }
+            delay(30000)
+            println("dongbingbin Thread job1 after name ${Thread.currentThread().name}")
+            GlobalScope.launch {
+                println("dongbingbin Thread job2 name ${Thread.currentThread().name}")
+            }
+
+            GlobalScope.launch {
+                println("dongbingbin Thread job3 name ${Thread.currentThread().name}")
+            }
+        }
+
+
+
+
+        var job1 = GlobalScope.launch {
             var result = async {
                 fun1()
             }
-            print(" ${result.await()} dongbingbin")
+
+            try {
+                var user = fetchUserFromServer().await()
+
+                delay(3000)
+
+                print(" ${result.await()} dongbingbin")
+            }catch (ex:Exception){
+                ex.printStackTrace()
+            }
+
+
         }
+
+        //job1.cancel()
 
         initUI()
         println("123321")
@@ -157,6 +250,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
 
         btn_bind_service.setOnClickListener {
+            job2.start()
+            println("dongbingbin job2 isComplete:${job2.isCompleted}")
             bindService(Intent(this@MainActivity, MyService::class.java),conn, Context.BIND_AUTO_CREATE)
         }
 
