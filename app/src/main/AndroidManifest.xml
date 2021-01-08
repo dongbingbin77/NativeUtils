@@ -45,7 +45,10 @@
             android:name=".WebviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
+        <activity
+            android:name=".SHBankHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".databinding.DataBindingDemoActivity"
             android:screenOrientation="portrait"
@@ -65,6 +68,9 @@
         <activity android:name=".BrowserActivity" />
         <activity
             android:name=".DialogActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".DemoLiveDataActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".SplashActivity"

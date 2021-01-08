@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <Button
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="开始流水号job"
+            android:onClick="startSearialNumberJob"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="停止流水号job"
+        android:onClick="stopSearialNumberJob"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="开始支付码job"
+        android:onClick="startPayCodeJob"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="停止支付码job"
+        android:onClick="stopPayCodeJob"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="开始支付结果job"
+        android:onClick="startPayResultJob"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="停止支付结果job"
+        android:onClick="stopPayResultJob"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+</LinearLayout>
