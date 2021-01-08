@@ -117,6 +117,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        btn_go_live_data.setOnClickListener {
+            startActivity(Intent(this,DemoLiveDataActivity::class.java))
+        }
         println("dongbingbin @Inject personk:${personK.name} ")
         personK.name = "jjjjj"
         app_btn_test_shbank_activity.setOnClickListener {
