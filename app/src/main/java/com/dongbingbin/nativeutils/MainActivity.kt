@@ -1,6 +1,8 @@
 package com.dongbingbin.nativeutils
 
 import android.Manifest
+import android.animation.ValueAnimator
+import android.animation.ValueAnimator.INFINITE
 import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
@@ -22,7 +24,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.dongbingbin.nativeutils.databinding.DataBindingDemoActivity
 import com.dongbingbin.nativeutils.model.Part
 import com.dongbingbin.nativeutils.model.Person
@@ -101,15 +109,37 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         return 666
     }
 
-
+    inline fun <reified T> Bundle.plus(key: String, value: T) {
+        when(value) {
+            is Long -> putLong(key, value)
+            is String -> putString(key, value)
+            is Char -> putChar(key, value)
+            is Int-> putInt(key, value)
+        }
+    }
     fun move() {
         println("animal move")
     }
 
+
+//    private lateinit var myViewModel: MyViewModel
     private fun fetchUserFromServer(): Single<User1> {
 //        Observable.create<User> {
 //
 //        }
+        var bundle = Bundle()
+        bundle.plus("123","123")
+
+//        myViewModel = getSelfViewModel {
+//            liveData1.observe(this@MainActivity, Observer {
+//                doSomething1(it)
+//            })
+//            liveData2.observe(this@MainActivity, Observer {
+//                doSomething2(it)
+//            })
+//
+//        }
+
 
         return Single.create<User1> {
             Log.d("demo", "(1) fetchUserFromServer start, ${Thread.currentThread()}")
@@ -161,8 +191,24 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_main)
         println("dongbingbin @Inject personk:${personK.name} ")
         personK.name = "jjjjj"
-
-
+        Glide.with(this)
+                .load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608575271441&di=dbc8a464b1df01a0b1c8ab670252054b&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201305%2F30%2F220025pxfkhykvkgkvuktq.jpg")
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(iv_test)
+//        (k44.layoutParams as ConstraintLayout.LayoutParams)
+        var valueAnimator = ValueAnimator.ofFloat(0F,360F)
+        valueAnimator.addUpdateListener {
+           val vla = (it.animatedValue as Float)
+            val params = (k44.layoutParams as ConstraintLayout.LayoutParams)
+            params.circleAngle = vla
+            k44.layoutParams = params
+        }
+        valueAnimator.repeatMode = INFINITE
+        valueAnimator.repeatCount = -1
+        valueAnimator.startDelay = 3000
+        valueAnimator.duration = 10000
+        valueAnimator.start()
         test_ttl1.cname = "test1";
         test_ttl2.cname = "test2";
         app_btn_databinding_activity.setOnClickListener {
