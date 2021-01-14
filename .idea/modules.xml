@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/NativeUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/NativeUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/NativeUtils.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/NativeUtils.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/testplugin/NativeUtils.testplugin.iml" filepath="$PROJECT_DIR$/.idea/modules/testplugin/NativeUtils.testplugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="NativeUtils/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-NativeUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/project-NativeUtils.iml" group="NativeUtils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testplugin/testplugin.iml" filepath="$PROJECT_DIR$/.idea/modules/testplugin/testplugin.iml" group="NativeUtils/testplugin" />
     </modules>
   </component>
 </project>

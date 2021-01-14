@@ -224,7 +224,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             params.circleAngle = vla
             k44.layoutParams = params
         }
-        valueAnimator.repeatMode = INFINITE
+        //valueAnimator.repeatMode = INFINITE
         valueAnimator.repeatCount = -1
         valueAnimator.startDelay = 3000
         valueAnimator.duration = 10000
@@ -247,11 +247,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             println("dongbingbin with time $result")
         }
 
-        val job1 = GlobalScope.launch(Dispatchers.Default) {
-
-            println("Current Thread : ${Thread.currentThread().name}")
-
-        }
+//        val job1 = GlobalScope.launch(Dispatchers.Default) {
+//
+//            println("Current Thread : ${Thread.currentThread().name}")
+//
+//        }
 
         var job = GlobalScope.launch {
             delay(6000)
